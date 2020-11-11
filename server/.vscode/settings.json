@@ -1,0 +1,15 @@
+{
+  "cSpell.words": [
+    "Misano",
+    "nurburgring",
+    "postgres",
+    "respawn",
+    "typeorm",
+    "wieik"
+  ],
+  "terminal.integrated.shellArgs.windows": [
+    "-NoExit",
+    "-Command",
+    "${workspaceFolder}/bin/init.ps1"
+  ]
+}
