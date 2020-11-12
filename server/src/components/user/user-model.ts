@@ -1,7 +1,7 @@
 import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
-import { Builder } from '../abstractions/builder';
-import { Setup } from './Setup';
+import { Builder } from '../../abstractions/builder';
+import { SetupModel } from '../setup/setup-model';
 
 export enum UserStatus {
   active = 'active',
@@ -13,8 +13,8 @@ export enum UserRoles {
   admin = 'admin',
 }
 
-@Entity()
-export class User {
+@Entity('user')
+export class UserModel {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -33,12 +33,12 @@ export class User {
   @Column('text')
   role: UserRoles;
 
-  @OneToMany((type) => Setup, (setup) => setup.user)
-  setups: Setup[];
+  @OneToMany((type) => SetupModel, (setup) => setup.user)
+  setups: SetupModel[];
 }
 
-export class UserBuilder extends Builder<User> {
-  private user: User;
+export class UserBuilder extends Builder<UserModel> {
+  private user: UserModel;
   constructor(data: {
     username: string;
     email: string;
@@ -47,7 +47,7 @@ export class UserBuilder extends Builder<User> {
     role: UserRoles;
   }) {
     super();
-    this.user = new User();
+    this.user = new UserModel();
     this.user.username = data.username;
     this.user.email = data.email;
     this.user.password = data.password;
@@ -55,7 +55,7 @@ export class UserBuilder extends Builder<User> {
     this.user.role = data.role;
   }
 
-  build(): User {
+  build(): UserModel {
     return this.user;
   }
 }

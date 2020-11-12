@@ -1,16 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Builder } from '../abstractions/Builder';
-import { Model } from './Model';
-import { Track } from './Track';
-import { User } from './User';
+import { Builder } from '../../abstractions/Builder';
+import { CarModel } from '../car/car-model';
+import { TrackModel } from '../track/track-model';
+import { UserModel } from '../user/user-model';
 
 export enum SetupWeather {
   dry = 'dry',
   wet = 'wet',
 }
 
-@Entity()
-export class Setup {
+@Entity('setup')
+export class SetupModel {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -29,30 +29,30 @@ export class Setup {
   @Column('text')
   weather: SetupWeather;
 
-  @ManyToOne((type) => User, (user) => user.setups, { eager: true })
-  user: User;
+  @ManyToOne((type) => UserModel, (user) => user.setups, { eager: true })
+  user: UserModel;
 
-  @ManyToOne((type) => Track, (track) => track.setups, { eager: true })
-  track: Track;
+  @ManyToOne((type) => TrackModel, (track) => track.setups, { eager: true })
+  track: TrackModel;
 
-  @ManyToOne((type) => Model, (model) => model.setups, { eager: true })
-  model: Model;
+  @ManyToOne((type) => CarModel, (model) => model.setups, { eager: true })
+  car: CarModel;
 }
 
-export class SetupBuilder extends Builder<Setup> {
-  private setup: Setup;
+export class SetupBuilder extends Builder<SetupModel> {
+  private setup: SetupModel;
   constructor(data: {
     filename: string;
     time: number;
     timeBase: number;
     downloads: number;
     weather: SetupWeather;
-    user: User;
-    track: Track;
-    model: Model;
+    user: UserModel;
+    track: TrackModel;
+    model: CarModel;
   }) {
     super();
-    this.setup = new Setup();
+    this.setup = new SetupModel();
     this.setup.filename = data.filename;
     this.setup.time = data.time;
     this.setup.timeBase = data.timeBase;
@@ -60,10 +60,10 @@ export class SetupBuilder extends Builder<Setup> {
     this.setup.weather = data.weather;
     this.setup.user = data.user;
     this.setup.track = data.track;
-    this.setup.model = data.model;
+    this.setup.car = data.model;
   }
 
-  build(): Setup {
+  build(): SetupModel {
     return this.setup;
   }
 }

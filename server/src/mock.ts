@@ -1,10 +1,19 @@
 import 'reflect-metadata';
 import { createConnection, getConnectionOptions, getRepository } from 'typeorm';
-import { Brand, BrandBuilder } from './models/Brand';
-import { Model, ModelBuilder } from './models/Model';
-import { Setup, SetupBuilder, SetupWeather } from './models/Setup';
-import { Track, TrackBuilder } from './models/Track';
-import { User, UserBuilder, UserRoles, UserStatus } from './models/User';
+import { BrandModel, BrandBuilder } from './components/brand/brand-model';
+import { CarModel, ModelBuilder } from './components/car/car-model';
+import {
+  SetupModel,
+  SetupBuilder,
+  SetupWeather,
+} from './components/setup/setup-model';
+import { TrackModel, TrackBuilder } from './components/track/track-model';
+import {
+  UserModel,
+  UserBuilder,
+  UserRoles,
+  UserStatus,
+} from './components/user/user-model';
 import { hash } from 'bcrypt';
 import { Logger } from './utils/logger';
 
@@ -16,11 +25,11 @@ import { Logger } from './utils/logger';
     logger: new Logger().setLabel('typeorm'),
   });
 
-  const userRepository = getRepository(User);
-  const brandRepository = getRepository(Brand);
-  const modelRepository = getRepository(Model);
-  const trackRepository = getRepository(Track);
-  const setupRepository = getRepository(Setup);
+  const userRepository = getRepository(UserModel);
+  const brandRepository = getRepository(BrandModel);
+  const modelRepository = getRepository(CarModel);
+  const trackRepository = getRepository(TrackModel);
+  const setupRepository = getRepository(SetupModel);
 
   const users = {
     activeUser: new UserBuilder({
