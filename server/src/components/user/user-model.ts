@@ -1,6 +1,7 @@
 import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { Builder } from '../../abstractions/builder';
+import { UserCore } from '../auth';
 import { SetupModel } from '../setup/setup-model';
 
 export enum UserStatus {
@@ -14,7 +15,7 @@ export enum UserRoles {
 }
 
 @Entity('user')
-export class UserModel {
+export class UserModel implements UserCore {
   @PrimaryGeneratedColumn()
   id: string;
 

@@ -1,14 +1,25 @@
 import 'reflect-metadata';
-import express from 'express';
+import { App } from './app';
 import { connectDatabase } from './config/connect-database';
+import { Logger } from './utils/logger';
 
 (async function main() {
-  await connectDatabase();
-  const app = express();
+  const port = 4000;
+  const logger = new Logger().setLabel('main');
 
-  app.get('/', function (req, res) {
-    res.send('Hello World');
-  });
+  const connection = await connectDatabase((options) => ({
+    ...options,
+    logger: new Logger().setLabel('typeorm'),
+  }));
 
-  app.listen(3000);
-});
+  try {
+    new App(connection).main({
+      port,
+      onStart: () => {
+        logger.info(`Server is running at port ${port}`);
+      },
+    });
+  } catch (err) {
+    logger.error('Fatal error', err);
+  }
+})();

@@ -1,10 +1,16 @@
-import { createConnection, getConnectionOptions } from 'typeorm';
-import { Logger } from '../utils/logger';
+import {
+  ConnectionOptions,
+  createConnection,
+  getConnectionOptions,
+} from 'typeorm';
 
-export async function connectDatabase() {
+export async function connectDatabase(
+  middleware?: (options: ConnectionOptions) => ConnectionOptions
+) {
   const connectionOptions = await getConnectionOptions();
-  await createConnection({
-    ...connectionOptions,
-    logger: new Logger().setLabel('typeorm'),
-  });
+  if (middleware) {
+    return createConnection(middleware(connectionOptions));
+  } else {
+    return createConnection(connectionOptions);
+  }
 }
