@@ -27,6 +27,6 @@ export class SetupRepository extends AbstractRepository<SetupModel> {
     setup.user = data.user;
     setup.track = data.track;
     setup.car = data.model;
-    return this.repository.save(setup);
+    return this.save(setup);
   }
 }

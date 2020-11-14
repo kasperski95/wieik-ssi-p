@@ -7,6 +7,6 @@ export class BrandRepository extends AbstractRepository<BrandModel> {
   createAndSave(data: { name: string }) {
     const brand = new BrandModel();
     brand.name = data.name;
-    return this.repository.save(brand);
+    return this.save(brand);
   }
 }

@@ -14,6 +14,6 @@ export class CarRepository extends AbstractRepository<CarModel> {
     car.name = data.name;
     car.year = data.year;
     car.brand = data.brand;
-    return this.repository.save(car);
+    return this.save(car);
   }
 }

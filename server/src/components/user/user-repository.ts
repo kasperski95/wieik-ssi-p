@@ -23,10 +23,10 @@ export class UserRepository
     user.role = data.role;
     user.status = data.status || UserStatus.active;
 
-    return this.repository.save(user);
+    return this.save(user);
   }
 
   async findByEmail(email: string) {
-    return this.repository.findOne({ where: { email } });
+    return this.findOne({ where: { email } });
   }
 }

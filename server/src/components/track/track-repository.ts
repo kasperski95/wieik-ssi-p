@@ -7,6 +7,6 @@ export class TrackRepository extends AbstractRepository<TrackModel> {
   createAndSave(data: { name: string }) {
     const track = new TrackModel();
     track.name = data.name;
-    return this.repository.save(track);
+    return this.save(track);
   }
 }

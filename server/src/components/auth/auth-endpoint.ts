@@ -19,7 +19,6 @@ export class AuthEndpoint extends AbstractEndpoint {
   main() {
     this.post(async (req, res) => {
       const result = await this.authService.createJWT('foo', 'bar');
-      console.log(result);
       res.send(result);
     });
   }

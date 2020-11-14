@@ -13,7 +13,7 @@ import { Logger } from './utils/logger';
   }));
 
   try {
-    new App(connection).main({
+    new App(connection, { apiVersion: 'v1' }).main({
       port,
       onStart: () => {
         logger.info(`Server is running at port ${port}`);

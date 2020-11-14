@@ -1,3 +1,4 @@
-export enum RepositoryDITokens {
+export enum DI {
   userRepository = 'userRepository',
+  brandRepository = 'brandRepository',
 }
