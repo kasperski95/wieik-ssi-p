@@ -1,13 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Builder } from '../../abstractions/Builder';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CarModel } from '../car/car-model';
-import { TrackModel } from '../track/track-model';
-import { UserModel } from '../user/user-model';
-
-export enum SetupWeather {
-  dry = 'dry',
-  wet = 'wet',
-}
+import { TrackModel } from '../track';
+import { UserModel } from '../user';
+import { SetupWeather } from './setup-types';
 
 @Entity('setup')
 export class SetupModel {
@@ -37,33 +32,4 @@ export class SetupModel {
 
   @ManyToOne((type) => CarModel, (model) => model.setups, { eager: true })
   car: CarModel;
-}
-
-export class SetupBuilder extends Builder<SetupModel> {
-  private setup: SetupModel;
-  constructor(data: {
-    filename: string;
-    time: number;
-    timeBase: number;
-    downloads: number;
-    weather: SetupWeather;
-    user: UserModel;
-    track: TrackModel;
-    model: CarModel;
-  }) {
-    super();
-    this.setup = new SetupModel();
-    this.setup.filename = data.filename;
-    this.setup.time = data.time;
-    this.setup.timeBase = data.timeBase;
-    this.setup.downloads = data.downloads;
-    this.setup.weather = data.weather;
-    this.setup.user = data.user;
-    this.setup.track = data.track;
-    this.setup.car = data.model;
-  }
-
-  build(): SetupModel {
-    return this.setup;
-  }
 }

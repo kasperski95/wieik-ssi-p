@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Builder } from '../../abstractions/Builder';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { SetupModel } from '../setup/setup-model';
 
 @Entity('track')
@@ -12,17 +11,4 @@ export class TrackModel {
 
   @OneToMany((type) => SetupModel, (setup) => setup.track)
   setups: SetupModel[];
-}
-
-export class TrackBuilder extends Builder<TrackModel> {
-  private track: TrackModel;
-  constructor(data: { name: string }) {
-    super();
-    this.track = new TrackModel();
-    this.track.name = data.name;
-  }
-
-  build(): TrackModel {
-    return this.track;
-  }
 }

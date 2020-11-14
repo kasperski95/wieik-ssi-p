@@ -1,7 +1,7 @@
 {
-  "Entity": {
+  "Model": {
     "scope": "typescript",
-    "prefix": "entity",
+    "prefix": "init-model",
     "body": [
       "import {",
       "  Entity,",
@@ -17,19 +17,24 @@
       "",
       "",
       "}",
+      ""
+    ]
+  },
+
+  "Repository": {
+    "scope": "typescript",
+    "prefix": "init-repo",
+    "body": [
+      "import { EntityRepository } from 'typeorm';",
+      "import { AbstractRepository } from '../../abstractions/repository';",
+      "import { $0Model } from './$1-model';",
       "",
-      "export class $1Builder extends Builder<$1> {",
-      "  private $0: $1;",
-      "  constructor(data: {  }) {",
-      "    super();",
-      "    this.$0 = new $1();",
-      "",
+      "@EntityRepository($0Model)",
+      "export class $0Repository extends AbstractRepository<$0Model> {",
+      "  createAndSave(data: {}) {",
       "  }",
-      "",
-      "  build(): $1 {",
-      "    return this.$0;",
-      "  }",
-      "}"
+      "}",
+      ""
     ]
   },
 

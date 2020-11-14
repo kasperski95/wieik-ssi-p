@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Builder } from '../../abstractions/Builder';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CarModel } from '../car/car-model';
 
 @Entity('brand')
@@ -12,17 +11,4 @@ export class BrandModel {
 
   @OneToMany((type) => CarModel, (model) => model.brand)
   models: CarModel[];
-}
-
-export class BrandBuilder extends Builder<BrandModel> {
-  private brand: BrandModel;
-  constructor(data: { name: string }) {
-    super();
-    this.brand = new BrandModel();
-    this.brand.name = data.name;
-  }
-
-  build(): BrandModel {
-    return this.brand;
-  }
 }

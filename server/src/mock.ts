@@ -1,20 +1,14 @@
 import 'reflect-metadata';
-import { createConnection, getConnectionOptions, getRepository } from 'typeorm';
-import { BrandModel, BrandBuilder } from './components/brand/brand-model';
-import { CarModel, ModelBuilder } from './components/car/car-model';
 import {
-  SetupModel,
-  SetupBuilder,
-  SetupWeather,
-} from './components/setup/setup-model';
-import { TrackModel, TrackBuilder } from './components/track/track-model';
-import {
-  UserModel,
-  UserBuilder,
-  UserRoles,
-  UserStatus,
-} from './components/user/user-model';
-import { hash } from 'bcrypt';
+  createConnection,
+  getConnectionOptions,
+  getCustomRepository,
+} from 'typeorm';
+import { BrandRepository } from './components/brand';
+import { CarRepository } from './components/car';
+import { SetupRepository, SetupWeather } from './components/setup';
+import { TrackRepository } from './components/track';
+import { UserRepository, UserRoles, UserStatus } from './components/user';
 import { Logger } from './utils/logger';
 
 (async function main() {
@@ -25,70 +19,59 @@ import { Logger } from './utils/logger';
     logger: new Logger().setLabel('typeorm'),
   });
 
-  const userRepository = getRepository(UserModel);
-  const brandRepository = getRepository(BrandModel);
-  const modelRepository = getRepository(CarModel);
-  const trackRepository = getRepository(TrackModel);
-  const setupRepository = getRepository(SetupModel);
+  const userRepository = getCustomRepository(UserRepository);
+  const brandRepository = getCustomRepository(BrandRepository);
+  const modelRepository = getCustomRepository(CarRepository);
+  const trackRepository = getCustomRepository(TrackRepository);
+  const setupRepository = getCustomRepository(SetupRepository);
 
   const users = {
-    activeUser: new UserBuilder({
+    activeUser: await userRepository.createAndSave({
       email: 'activeUser@m.com',
-      password: await hash('foobar', 10),
+      password: 'foobar',
       role: UserRoles.user,
-      status: UserStatus.active,
       username: 'activeUser',
-    }).build(),
-    blockedUser: new UserBuilder({
+    }),
+    blockedUser: await userRepository.createAndSave({
       email: 'blockedUser@m.com',
-      password: await hash('foobar', 10),
+      password: 'foobar',
       role: UserRoles.user,
-      status: UserStatus.blocked,
       username: 'blockedUser',
-    }).build(),
-    admin: new UserBuilder({
+      status: UserStatus.blocked,
+    }),
+    admin: await userRepository.createAndSave({
       email: 'admin@m.com',
-      password: await hash('foobar', 10),
+      password: 'foobar',
       role: UserRoles.admin,
-      status: UserStatus.active,
       username: 'admin',
-    }).build(),
+    }),
   };
-  users.activeUser = await userRepository.save(users.activeUser);
-  users.blockedUser = await userRepository.save(users.blockedUser);
-  users.admin = await userRepository.save(users.admin);
 
   const brands = {
-    audi: new BrandBuilder({ name: 'Audi' }).build(),
-    porsche: new BrandBuilder({ name: 'Porsche' }).build(),
+    audi: await brandRepository.createAndSave({ name: 'Audi' }),
+    porsche: await brandRepository.createAndSave({ name: 'Porsche' }),
   };
-  brands.audi = await brandRepository.save(brands.audi);
-  brands.porsche = await brandRepository.save(brands.porsche);
 
   const models = {
-    r8: new ModelBuilder({
+    r8: await modelRepository.createAndSave({
       brand: brands.audi,
       name: 'R8',
       year: 2019,
-    }).build(),
-    _911: new ModelBuilder({
+    }),
+    _911: await modelRepository.createAndSave({
       brand: brands.audi,
       name: '911 GT3 R',
       year: 2019,
-    }).build(),
+    }),
   };
-  models.r8 = await modelRepository.save(models.r8);
-  models._911 = await modelRepository.save(models._911);
 
   const tracks = {
-    nurburgring: new TrackBuilder({ name: 'Nurburgring' }).build(),
-    misano: new TrackBuilder({ name: 'Misano' }).build(),
+    nurburgring: await trackRepository.createAndSave({ name: 'Nurburgring' }),
+    misano: await trackRepository.createAndSave({ name: 'Misano' }),
   };
-  tracks.misano = await trackRepository.save(tracks.misano);
-  tracks.nurburgring = await trackRepository.save(tracks.nurburgring);
 
   const setups = {
-    setup1: new SetupBuilder({
+    setup1: await setupRepository.createAndSave({
       filename: 'a1b2c2.json',
       downloads: 0,
       time: 123.05,
@@ -97,8 +80,8 @@ import { Logger } from './utils/logger';
       model: models._911,
       track: tracks.nurburgring,
       user: users.activeUser,
-    }).build(),
-    setup2: new SetupBuilder({
+    }),
+    setup2: await setupRepository.createAndSave({
       filename: 'a1b2c2.json',
       downloads: 0,
       time: 123.05,
@@ -107,8 +90,6 @@ import { Logger } from './utils/logger';
       model: models.r8,
       track: tracks.nurburgring,
       user: users.activeUser,
-    }).build(),
+    }),
   };
-  setups.setup1 = await setupRepository.save(setups.setup1);
-  setups.setup2 = await setupRepository.save(setups.setup2);
 })();
