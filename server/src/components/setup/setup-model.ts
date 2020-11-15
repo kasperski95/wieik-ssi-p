@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { CarModel } from '../car/car-model';
 import { TrackModel } from '../track';
 import { UserModel } from '../user';
@@ -24,12 +30,24 @@ export class SetupModel {
   @Column('text')
   weather: SetupWeather;
 
-  @ManyToOne((type) => UserModel, (user) => user.setups, { eager: true })
+  @ManyToOne((type) => UserModel, (user) => user.setups)
   user: UserModel;
 
-  @ManyToOne((type) => TrackModel, (track) => track.setups, { eager: true })
+  @RelationId((self: SetupModel) => self.user)
+  @Column()
+  userId: string;
+
+  @ManyToOne((type) => TrackModel, (track) => track.setups)
   track: TrackModel;
 
-  @ManyToOne((type) => CarModel, (model) => model.setups, { eager: true })
+  @RelationId((self: SetupModel) => self.track)
+  @Column()
+  trackId: string;
+
+  @ManyToOne((type) => CarModel, (model) => model.setups)
   car: CarModel;
+
+  @RelationId((self: SetupModel) => self.car)
+  @Column()
+  carId: string;
 }

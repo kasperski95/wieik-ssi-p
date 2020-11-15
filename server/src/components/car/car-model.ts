@@ -4,6 +4,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 import { BrandModel } from '../brand/brand-model';
 import { SetupModel } from '../setup/setup-model';
@@ -21,6 +22,10 @@ export class CarModel {
 
   @ManyToOne((type) => BrandModel, (brand) => brand.models, { eager: true })
   brand: BrandModel;
+
+  @RelationId((self: CarModel) => self.brand)
+  @Column()
+  brandId: string;
 
   @OneToMany((type) => SetupModel, (setup) => setup.car)
   setups: SetupModel[];

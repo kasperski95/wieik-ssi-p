@@ -48,8 +48,12 @@ import { Logger } from './utils/logger';
   };
 
   const brands = {
-    audi: await brandRepository.createAndSave({ name: 'Audi' }),
-    porsche: await brandRepository.createAndSave({ name: 'Porsche' }),
+    audi: await brandRepository.createAndSave({
+      name: 'Audi',
+    }),
+    porsche: await brandRepository.createAndSave({
+      name: 'Porsche',
+    }),
   };
 
   const models = {
@@ -59,7 +63,7 @@ import { Logger } from './utils/logger';
       year: 2019,
     }),
     _911: await modelRepository.createAndSave({
-      brand: brands.audi,
+      brand: brands.porsche,
       name: '911 GT3 R',
       year: 2019,
     }),
