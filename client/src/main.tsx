@@ -1,21 +1,22 @@
 import React from 'react';
-import { TestEvents, TestStates, useTestBloc } from './blocs/test';
-import { BlocBuilder } from './modules/react-bloc';
+import { FormStates, useFormBloc } from './blocs/form';
+import { TextFormField } from './components/form-fields/text-form-field';
+import { Bloc, BlocBuilder } from './modules/react-bloc';
 
 export function App() {
-  const bloc = useTestBloc();
+  Bloc.logger = console;
+
+  const bloc = useFormBloc('abc', {
+    foo: 'bar',
+  });
+
   return (
     <React.Fragment>
-      <button
-        children='test'
-        onClick={() => {
-          bloc.dispatch(new TestEvents.Toggle());
-        }}
-      />
       <BlocBuilder
         bloc={bloc}
         builder={(state) => {
-          if (state instanceof TestStates.Initial) return <div>foo</div>;
+          if (state instanceof FormStates.Editable)
+            return <TextFormField bloc={bloc} id='foo' label='foo' />;
           else return <div>bar</div>;
         }}
       />
