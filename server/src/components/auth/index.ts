@@ -1,2 +1,2 @@
 export { AuthEndpoint } from './auth-endpoint';
-export { UserCore, UserCoreRepository } from './auth-types';
+export { AuthDI, UserCore, UserCoreRepository } from './auth-types';

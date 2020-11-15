@@ -7,3 +7,7 @@ export interface UserCore {
 export interface UserCoreRepository {
   findByEmail: (email: string) => Promise<UserCore>;
 }
+
+export enum AuthDI {
+  userCoreRepository = 'userCoreRepository',
+}

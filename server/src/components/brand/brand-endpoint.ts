@@ -1,9 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import { AbstractEndpoint } from '../../abstractions/endpoint';
 import { APIException } from '../../abstractions/exception';
+import { UserRoles } from '../user';
 import { BrandRepository } from './brand-repository';
 
-export class BrandEndpoint extends AbstractEndpoint {
+export class BrandEndpoint extends AbstractEndpoint<UserRoles> {
   constructor(route: string, private brandRepository: BrandRepository) {
     super(route);
   }
@@ -24,9 +25,5 @@ export class BrandEndpoint extends AbstractEndpoint {
       },
       { routeSuffix: '/:id' }
     );
-
-    this.post(async (req, res) => {
-      this.brandRepository.createAndSave(req.body);
-    });
   }
 }

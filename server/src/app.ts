@@ -2,6 +2,7 @@ import express from 'express';
 import { container } from 'tsyringe';
 import { Connection } from 'typeorm';
 import { AuthEndpoint } from './components/auth';
+import { AuthService } from './components/auth/auth-service';
 import { BrandRepository } from './components/brand';
 import { BrandEndpoint } from './components/brand/brand-endpoint';
 import { UserRepository } from './components/user/user-repository';
@@ -16,12 +17,16 @@ export class App {
   main(config: { port: number; onStart: () => void }) {
     this.registerRepositories();
     const app = express();
+    app.use(express.json());
 
     [
-      new AuthEndpoint('app', container.resolve(DI.userRepository)),
+      new AuthEndpoint('auth', container.resolve(DI.userRepository)),
       new BrandEndpoint('brand', container.resolve(DI.brandRepository)),
     ].forEach((endpoint) =>
-      endpoint.setAPIVersion(this.config.apiVersion).addTo(app)
+      endpoint
+        .setAPIVersion(this.config.apiVersion)
+        .setTokenToRoleMapper(this.mapTokenToRole)
+        .addTo(app)
     );
 
     app.listen(config.port, config.onStart);
@@ -36,5 +41,17 @@ export class App {
       DI.brandRepository,
       this.connection.getCustomRepository(BrandRepository)
     );
+  }
+
+  private async mapTokenToRole(token: string) {
+    const userRepository: UserRepository = container.resolve(DI.userRepository);
+    const authService: AuthService = container.resolve(AuthService);
+
+    if (!token) return undefined;
+
+    const userId = await authService.decodeJWT(token);
+    const user = await userRepository.findOne(userId);
+
+    return user?.role;
   }
 }

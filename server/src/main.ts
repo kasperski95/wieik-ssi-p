@@ -20,6 +20,7 @@ import { Logger } from './utils/logger';
       },
     });
   } catch (err) {
-    logger.error('Fatal error', err);
+    logger.error('Fatal error');
+    console.error(err);
   }
 })();

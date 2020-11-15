@@ -3,13 +3,12 @@ import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 import { inject, singleton } from 'tsyringe';
 import { APIException } from '../../abstractions/exception';
-import { AuthTokens } from './auth-constants';
-import { UserCoreRepository } from './auth-types';
+import { AuthDI, UserCoreRepository } from './auth-types';
 
 @singleton()
 export class AuthService {
   constructor(
-    @inject(AuthTokens.userCoreRepository)
+    @inject(AuthDI.userCoreRepository)
     private userCoreRepository: UserCoreRepository
   ) {}
 
@@ -21,6 +20,10 @@ export class AuthService {
     if (!bcrypt.compareSync(password, user.password))
       throw new APIException(StatusCodes.UNAUTHORIZED);
 
-    return jwt.sign('foo', 'foobar');
+    return jwt.sign(user.id, 'foobar');
+  }
+
+  async decodeJWT(token: string) {
+    return jwt.decode(token) as string;
   }
 }
