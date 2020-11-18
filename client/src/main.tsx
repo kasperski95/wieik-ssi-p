@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormStates, useFormBloc } from './blocs/form';
 import { TextFormField } from './components/form-fields/text-form-field';
+import { Test } from './components/test';
 import { Bloc, BlocBuilder } from './modules/react-bloc';
 
 export function App() {
@@ -12,6 +13,7 @@ export function App() {
 
   return (
     <React.Fragment>
+      <Test />
       <BlocBuilder
         bloc={bloc}
         builder={(state) => {
