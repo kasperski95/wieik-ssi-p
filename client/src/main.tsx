@@ -1,27 +1,30 @@
 import React from 'react';
-import { FormStates, useFormBloc } from './blocs/form';
+import { useFormBloc } from './blocs/form';
+import { FormBuilder } from './components/form-builder';
 import { TextFormField } from './components/form-fields/text-form-field';
-import { Test } from './components/test';
-import { Bloc, BlocBuilder } from './modules/react-bloc';
+import { styling, ThemeProvider } from './config/theme';
+import { Bloc } from './modules/react-bloc';
 
 export function App() {
   Bloc.logger = console;
 
-  const bloc = useFormBloc('abc', {
+  const formBloc = useFormBloc('abc', {
     foo: 'bar',
   });
 
   return (
-    <React.Fragment>
-      <Test />
-      <BlocBuilder
-        bloc={bloc}
-        builder={(state) => {
-          if (state instanceof FormStates.Editable)
-            return <TextFormField bloc={bloc} id='foo' label='foo' />;
-          else return <div>bar</div>;
+    <ThemeProvider value={styling}>
+      <FormBuilder
+        formBloc={formBloc}
+        builder={(formData, createProps) => {
+          return (
+            <React.Fragment>
+              <TextFormField label='test' {...createProps('foo')} />
+              <TextFormField label='test' {...createProps('foo')} />
+            </React.Fragment>
+          );
         }}
       />
-    </React.Fragment>
+    </ThemeProvider>
   );
 }

@@ -14,5 +14,15 @@
     "-Command",
     "${workspaceFolder}/bin/init.ps1"
   ],
-  "html.format.wrapLineLength": 80
+  "html.format.wrapLineLength": 80,
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "[typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  }
 }

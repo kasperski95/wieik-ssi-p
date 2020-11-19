@@ -1,6 +1,6 @@
-import React from 'react';
 import { OutlinedInput } from '@material-ui/core';
 import { FormBloc, FormEvents } from '@src/blocs/form';
+import React from 'react';
 
 export function TextFormField<T>(props: {
   id: keyof T;
