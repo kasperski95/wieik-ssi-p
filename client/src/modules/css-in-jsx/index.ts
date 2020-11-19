@@ -1,4 +1,4 @@
-export { createStyleContext } from './main';
-export type { Theme, Styling, StylingCore } from './types';
 export { combine } from './combine';
-export { generateTheme, configureStyling } from './generate-theme';
+export { configureTheme } from './configure-theme';
+export { generateTheme } from './generate-theme';
+export type { Styling, StylingCore, Theme } from './types';

@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormBloc } from './blocs/form';
 import { FormBuilder } from './components/form-builder';
 import { TextFormField } from './components/form-fields/text-form-field';
-import { styling, ThemeProvider } from './config/theme';
+import { ThemeProvider } from './config/theme';
 import { Bloc } from './modules/react-bloc';
 
 export function App() {
@@ -13,7 +13,7 @@ export function App() {
   });
 
   return (
-    <ThemeProvider value={styling}>
+    <ThemeProvider>
       <FormBuilder
         formBloc={formBloc}
         builder={(formData, createProps) => {

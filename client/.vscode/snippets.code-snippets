@@ -1,6 +1,6 @@
 {
-  "Init React Component": {
-    "prefix": "init-r",
+  "init": {
+    "prefix": "init",
     "body": [
       "import React from 'react';",
       "import { createUseStyle } from '@src/config/theme';",
@@ -12,7 +12,7 @@
       "  return <div style={styles.container}>$0${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g}</div>;",
       "}",
       "",
-      "const useStyle = createUseStyle(({ theme, dimensions, typography }) => {",
+      "const useStyle = createUseStyle(({ theme, dimensions, shared }) => {",
       "  return {",
       "    container: {},",
       "  };",

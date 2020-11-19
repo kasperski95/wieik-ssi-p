@@ -30,20 +30,21 @@ export interface Theme extends ThemeCore {
   active: MediumTheme;
 }
 
-export interface StylingCore<
-  T extends { [key: string]: React.CSSProperties },
-  D
-> {
-  theme: Theme;
-  dimensions: D;
-  createTypography: () => T;
+export interface Style {
+  [key: string]: React.CSSProperties;
 }
 
-export interface Styling<
-  S extends { [key: string]: React.CSSProperties },
-  T extends { [key: string]: React.CSSProperties },
-  D
-> {
+export type UnlimitedDepthStyle =
+  | Style
+  | { [key: string]: UnlimitedDepthStyle };
+
+export interface StylingCore<T extends Style, D> {
+  theme: Theme;
+  dimensions: D;
+  createSharedStyles: () => T;
+}
+
+export interface Styling<S extends Style, T extends Style, D> {
   styles: S;
   theme: Theme;
   dimensions: D;

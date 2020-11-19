@@ -1,8 +1,4 @@
-import {
-  configureStyling,
-  createStyleContext,
-  generateTheme,
-} from '@src/modules/css-in-jsx';
+import { configureTheme, generateTheme } from '@src/modules/css-in-jsx';
 
 const palette = {
   white: 'white',
@@ -11,7 +7,7 @@ const palette = {
   darkGray: '#212529',
 };
 
-export const styling = configureStyling({
+export const { ThemeProvider, createUseStyle } = configureTheme({
   theme: generateTheme({
     accent: {
       main: palette.red,
@@ -25,11 +21,11 @@ export const styling = configureStyling({
     gutterMedium: 16,
     gutterLarge: 24,
   },
-  createTypography: (theme) => ({
-    default: {
-      fontSize: 16,
+  createSharedStyles: (theme) => ({
+    typography: {
+      default: {
+        fontSize: 16,
+      },
     },
   }),
 });
-
-export const { ThemeProvider, createUseStyle } = createStyleContext(styling);

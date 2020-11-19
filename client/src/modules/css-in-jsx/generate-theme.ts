@@ -34,17 +34,6 @@ function generateMediumTheme(main: string, contrastMain: string) {
   };
 }
 
-export function configureStyling<
-  T extends { [key: string]: React.CSSProperties },
-  D
->(data: {
-  theme: Theme;
-  dimensions: D;
-  createTypography: (theme?: Theme) => T;
-}) {
-  return data;
-}
-
 export function generateTheme(theme: {
   accent: { main: string; contrast: { main: string } };
 }): Theme {
