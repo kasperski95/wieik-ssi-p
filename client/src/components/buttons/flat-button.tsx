@@ -27,7 +27,6 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
     },
 
     button: {
-      backgroundColor: theme.active.contrast.main,
       padding: dimensions.gutterSmall,
       paddingLeft: dimensions.gutterMedium,
       paddingRight: dimensions.gutterMedium,

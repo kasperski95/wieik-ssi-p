@@ -25,11 +25,15 @@ export const { ThemeProvider, createUseStyle } = configureTheme({
   },
   createSharedStyles: (theme) => ({
     typography: {
+      h2: {
+        fontSize: 24,
+        color: theme.active.contrast.strong,
+      },
       default: {
         fontSize: 16,
       },
       action: {
-        color: theme.accent.main,
+        color: theme.accent.strong,
         fontWeight: 'bold',
       },
     },

@@ -2,22 +2,36 @@ import Color from 'color';
 import { Theme } from './types';
 
 const palette = {
-  white: 'white',
-  black: 'black',
+  white: '#EAEAEA',
+  black: '#111',
   red: 'red',
   green: 'green',
   orange: 'orange',
 };
 
 function generateMediumTheme(main: string, contrastMain: string) {
+  const increaseContrast = (color: string, value: number) => {
+    return (Color(main).isDark()
+      ? Color(color).lighten(value)
+      : Color(color).darken(value)
+    ).toString();
+  };
+
+  const contrast = 1;
+
   return {
     main: main,
-    weak: Color(main).darken(0.1).toString(),
-    strong: Color(main).lighten(0.1).toString(),
+    weak: increaseContrast(main, -contrast),
+    strong: increaseContrast(main, contrast),
+    light: Color(main).lighten(contrast).toString(),
+    dark: Color(main).darken(contrast).toString(),
+
     contrast: {
       main: contrastMain,
-      weak: Color(contrastMain).lighten(0.1).toString(),
-      strong: Color(contrastMain).darken(0.1).toString(),
+      weak: increaseContrast(contrastMain, contrast),
+      strong: increaseContrast(contrastMain, contrast),
+      light: Color(contrastMain).lighten(contrast).toString(),
+      dark: Color(contrastMain).darken(contrast).toString(),
     },
     divider: {
       main: Color(main).mix(Color(contrastMain), 0.2).toString(),
@@ -28,7 +42,7 @@ function generateMediumTheme(main: string, contrastMain: string) {
     error: {
       main: Color(palette.red).mix(Color(main), 0.2).toString(),
     },
-    warn: {
+    warning: {
       main: Color(palette.orange).mix(Color(main), 0.2).toString(),
     },
   };

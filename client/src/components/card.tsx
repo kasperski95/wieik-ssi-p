@@ -13,10 +13,13 @@ export function Card(props: {
   );
 }
 
-const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {
-    backgroundColor: theme.active.main,
-    padding: dimensions.gutterMedium,
-    ...shared.shadow,
-  },
-}));
+const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
+  return {
+    container: {
+      backgroundColor: theme.active.light,
+      padding: dimensions.gutterMedium,
+      borderRadius: dimensions.radiusSmall,
+      ...shared.shadow,
+    },
+  };
+});

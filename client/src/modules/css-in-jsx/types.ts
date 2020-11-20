@@ -7,6 +7,8 @@ export interface ColorGroupBase {
 export interface ColorGroup extends ColorGroupBase {
   weak: Color;
   strong: Color;
+  light: Color;
+  dark: Color;
 }
 
 export interface MiniTheme extends ColorGroup {
@@ -17,7 +19,7 @@ export interface MediumTheme extends MiniTheme {
   divider: ColorGroupBase;
   success: ColorGroupBase;
   error: ColorGroupBase;
-  warn: ColorGroupBase;
+  warning: ColorGroupBase;
 }
 
 export interface ThemeCore {

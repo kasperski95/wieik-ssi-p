@@ -1,3 +1,4 @@
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import React from 'react';
 import { StylingCore, Theme, ThemeCore, UnlimitedDepthStyle } from './types';
 
@@ -9,12 +10,36 @@ export function configureTheme<T extends UnlimitedDepthStyle, D>(data: {
   const ThemeContext = React.createContext({} as StylingCore<T, D>);
 
   return {
-    ThemeProvider: (props: { children: React.ReactNode; theme?: Theme }) => (
-      <ThemeContext.Provider
-        value={{ ...data, theme: props.theme || data.theme }}
-        children={props.children}
-      />
-    ),
+    ThemeProvider: (props: { children: React.ReactNode; theme?: Theme }) => {
+      const theme = props.theme || data.theme;
+      return (
+        <ThemeContext.Provider value={{ ...data, theme }}>
+          <ThemeProvider
+            theme={createMuiTheme({
+              palette: {
+                text: {
+                  primary: theme.active.contrast.main,
+                  secondary: 'red',
+                },
+                primary: { main: theme.accent.main },
+                background: {
+                  default: theme.active.dark,
+                  paper: theme.active.light,
+                },
+                error: { main: theme.active.error.main },
+                success: { main: theme.active.success.main },
+                warning: { main: theme.active.warning.main },
+                type: theme.active === theme.dark ? 'dark' : 'light',
+                divider: theme.active.divider.main,
+              },
+            })}
+          >
+            {props.children}
+          </ThemeProvider>
+          i
+        </ThemeContext.Provider>
+      );
+    },
     createUseStyle<S extends { [key: string]: React.CSSProperties }>(
       createStyle: (styles: { theme: Theme; dimensions: D; shared: T }) => S
     ) {

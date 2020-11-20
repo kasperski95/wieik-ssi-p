@@ -13,7 +13,7 @@ export function CardContent(props: {
 
   return (
     <div style={styles.container}>
-      <div>{props.title}</div>
+      <div style={styles.title}>{props.title}</div>
       <div>{props.children}</div>
       {shouldRenderActions && (
         <div>
@@ -37,5 +37,6 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
     container: {
       ...shared.typography.action,
     },
+    title: shared.typography.h2,
   };
 });
