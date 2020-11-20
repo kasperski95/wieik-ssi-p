@@ -4,13 +4,16 @@ import { StylingCore, Theme, ThemeCore, UnlimitedDepthStyle } from './types';
 export function configureTheme<T extends UnlimitedDepthStyle, D>(data: {
   theme: Theme;
   dimensions: D;
-  createSharedStyles: (theme?: Theme) => T;
+  createSharedStyles: (theme: Theme) => T;
 }) {
   const ThemeContext = React.createContext({} as StylingCore<T, D>);
 
   return {
-    ThemeProvider: (props: { children: React.ReactNode }) => (
-      <ThemeContext.Provider value={data} children={props.children} />
+    ThemeProvider: (props: { children: React.ReactNode; theme?: Theme }) => (
+      <ThemeContext.Provider
+        value={{ ...data, theme: props.theme || data.theme }}
+        children={props.children}
+      />
     ),
     createUseStyle<S extends { [key: string]: React.CSSProperties }>(
       createStyle: (styles: { theme: Theme; dimensions: D; shared: T }) => S
@@ -20,20 +23,27 @@ export function configureTheme<T extends UnlimitedDepthStyle, D>(data: {
           ThemeContext
         );
 
-        const styles = themeName
-          ? createStyle({
-              theme: {
-                ...theme,
-                get active() {
-                  return theme[themeName!];
-                },
+        const newTheme = themeName
+          ? {
+              ...theme,
+              get active() {
+                return theme[themeName!];
               },
-              dimensions,
-              shared: createSharedStyles(),
-            })
-          : createStyle({ theme, dimensions, shared: createSharedStyles() });
+            }
+          : theme;
 
-        return { theme, styles, dimensions, shared: createSharedStyles() };
+        const styles = createStyle({
+          theme: newTheme,
+          dimensions,
+          shared: createSharedStyles(theme),
+        });
+
+        return {
+          theme: newTheme,
+          styles,
+          dimensions,
+          shared: createSharedStyles(theme),
+        };
       };
     },
   };

@@ -1,5 +1,4 @@
 import { FormBloc, FormStates } from '@src/blocs/form';
-import { createUseStyle } from '@src/config/theme';
 import { BlocBuilder } from '@src/modules/react-bloc';
 import React from 'react';
 
@@ -16,7 +15,7 @@ export function FormBuilder<T>(props: {
     createFormFieldProps: (id: keyof T) => SharedFormFieldProps<T>
   ) => JSX.Element;
 }) {
-  const { styles } = useStyle();
+  // const { styles } = useStyle();
 
   return (
     <BlocBuilder
@@ -35,8 +34,8 @@ export function FormBuilder<T>(props: {
   );
 }
 
-const useStyle = createUseStyle(({ theme, dimensions, typography }) => {
-  return {
-    container: {},
-  };
-});
+// const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
+//   return {
+//     container: {},
+//   };
+// });

@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormBloc } from './form-bloc';
 
 const container: { [key: string]: FormBloc<any> | undefined } = {};

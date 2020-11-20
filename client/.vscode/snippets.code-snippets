@@ -12,11 +12,9 @@
       "  return <div style={styles.container}>$0${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g}</div>;",
       "}",
       "",
-      "const useStyle = createUseStyle(({ theme, dimensions, shared }) => {",
-      "  return {",
-      "    container: {},",
-      "  };",
-      "});",
+      "const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({",
+      "  container: {},",
+      "}));",
       ""
     ]
   }

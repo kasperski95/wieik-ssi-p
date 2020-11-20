@@ -34,14 +34,14 @@ export interface Style {
   [key: string]: React.CSSProperties;
 }
 
-export type UnlimitedDepthStyle =
-  | Style
-  | { [key: string]: UnlimitedDepthStyle };
+export type UnlimitedDepthStyle = {
+  [key: string]: React.CSSProperties | UnlimitedDepthStyle;
+};
 
 export interface StylingCore<T extends Style, D> {
   theme: Theme;
   dimensions: D;
-  createSharedStyles: () => T;
+  createSharedStyles: (theme: Theme) => T;
 }
 
 export interface Styling<S extends Style, T extends Style, D> {
