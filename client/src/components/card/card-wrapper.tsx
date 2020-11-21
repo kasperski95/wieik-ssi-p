@@ -2,7 +2,7 @@ import { createUseStyle } from '@src/config/theme';
 import { combine } from '@src/modules/css-in-jsx';
 import React from 'react';
 
-export function Card(props: {
+export function CardWrapper(props: {
   children: React.ReactNode;
   style?: React.CSSProperties;
 }) {

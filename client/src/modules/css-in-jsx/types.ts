@@ -33,11 +33,14 @@ export interface Theme extends ThemeCore {
 }
 
 export interface Style {
-  [key: string]: React.CSSProperties;
+  [key: string]: React.CSSProperties | ((...args: any) => React.CSSProperties);
 }
 
 export type UnlimitedDepthStyle = {
-  [key: string]: React.CSSProperties | UnlimitedDepthStyle;
+  [key: string]:
+    | React.CSSProperties
+    | ((...args: any) => React.CSSProperties)
+    | UnlimitedDepthStyle;
 };
 
 export interface StylingCore<T extends Style, D> {

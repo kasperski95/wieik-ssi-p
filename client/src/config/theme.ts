@@ -31,11 +31,13 @@ export const { ThemeProvider, createUseStyle } = configureTheme({
       },
       default: {
         fontSize: 16,
+        color: theme.active.contrast.main,
       },
-      action: {
-        color: theme.accent.strong,
+      action: (disabled = false) => ({
+        color: disabled ? theme.accent.weak : theme.accent.strong,
         fontWeight: 'bold',
-      },
+        textTransform: 'uppercase',
+      }),
     },
     shadow: {
       boxShadow:

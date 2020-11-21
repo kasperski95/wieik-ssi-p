@@ -1,6 +1,12 @@
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import React from 'react';
-import { StylingCore, Theme, ThemeCore, UnlimitedDepthStyle } from './types';
+import {
+  Style,
+  StylingCore,
+  Theme,
+  ThemeCore,
+  UnlimitedDepthStyle,
+} from './types';
 
 export function configureTheme<T extends UnlimitedDepthStyle, D>(data: {
   theme: Theme;
@@ -36,11 +42,10 @@ export function configureTheme<T extends UnlimitedDepthStyle, D>(data: {
           >
             {props.children}
           </ThemeProvider>
-          i
         </ThemeContext.Provider>
       );
     },
-    createUseStyle<S extends { [key: string]: React.CSSProperties }>(
+    createUseStyle<S extends Style>(
       createStyle: (styles: { theme: Theme; dimensions: D; shared: T }) => S
     ) {
       return (themeName?: keyof ThemeCore) => {
