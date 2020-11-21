@@ -7,3 +7,5 @@ export class Update<T extends { [key: string]: any }> extends FormEvent {
     super();
   }
 }
+
+export class Submit extends FormEvent {}

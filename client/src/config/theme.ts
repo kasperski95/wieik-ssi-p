@@ -1,9 +1,10 @@
 import { configureTheme, generateTheme } from '@src/modules/css-in-jsx';
+import Color from 'color';
 
 const palette = {
   white: 'white',
   black: 'black',
-  red: '#990000',
+  red: Color('#990000').desaturate(0.2).toString(),
   darkGray: '#212529',
 };
 
@@ -40,6 +41,10 @@ export const { ThemeProvider, createUseStyle } = configureTheme({
       default: {
         fontSize: 16,
         color: theme.active.contrast.main,
+      },
+      submit: {
+        color: theme.active.contrast.main,
+        fontWeight: 'bold',
       },
       action: (disabled = false) => ({
         color: disabled ? theme.accent.weak : theme.accent.strong,

@@ -1,12 +1,10 @@
 import { createUseStyle, ThemeProvider } from '@src/config/theme';
 import React from 'react';
 import { Ripple } from './ripple';
+import { ButtonProps } from './types';
 
-export function FlatButton(props: {
-  label: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}) {
-  const { theme, styles, shared } = useStyle('accent');
+export function FlatButton(props: ButtonProps) {
+  const { theme, styles } = useStyle('accent');
 
   return (
     <ThemeProvider theme={theme}>

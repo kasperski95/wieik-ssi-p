@@ -62,17 +62,17 @@ export function configureTheme<T extends UnlimitedDepthStyle, D>(data: {
             }
           : theme;
 
-        const styles = createStyle({
-          theme: newTheme,
-          dimensions,
-          shared: createSharedStyles(theme),
-        });
+        const sharedStyles = createSharedStyles(newTheme);
 
         return {
           theme: newTheme,
-          styles,
           dimensions,
-          shared: createSharedStyles(theme),
+          shared: sharedStyles,
+          styles: createStyle({
+            theme: newTheme,
+            dimensions,
+            shared: sharedStyles,
+          }),
         };
       };
     },

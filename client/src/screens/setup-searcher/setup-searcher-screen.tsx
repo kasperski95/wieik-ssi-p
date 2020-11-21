@@ -1,5 +1,6 @@
 import { useFormBloc } from '@src/blocs/form';
 import { Card } from '@src/components/card';
+import { Form, FormField } from '@src/components/form';
 import { Screen } from '@src/components/screen';
 import { Bloc } from '@src/modules/react-bloc';
 import React from 'react';
@@ -7,9 +8,15 @@ import React from 'react';
 export function SetupSearcherScreen() {
   Bloc.logger = console;
 
-  const formBloc = useFormBloc('abc', {
-    foo: 'bar',
-  });
+  const formBloc = useFormBloc(
+    'abc',
+    {
+      foo: 'bar',
+    },
+    {
+      onSubmit: () => {},
+    }
+  );
 
   return (
     <Screen
@@ -36,19 +43,19 @@ export function SetupSearcherScreen() {
         <Card.Content title='foo'>test</Card.Content>
       </Card.Wrapper>
 
-      {/* <FormWrapper>
-        <FormBuilder
+      <Form.Wrapper formBloc={formBloc}>
+        <Form.Builder
           formBloc={formBloc}
           builder={(formData, createProps) => {
             return (
               <React.Fragment>
-                <TextFormField label='test' {...createProps('foo')} />
-                <TextFormField label='test' {...createProps('foo')} />
+                <FormField.Text label='test' {...createProps('foo')} />
+                <FormField.Text label='test' {...createProps('foo')} />
               </React.Fragment>
             );
           }}
         />
-      </FormWrapper> */}
+      </Form.Wrapper>
     </Screen>
   );
 }

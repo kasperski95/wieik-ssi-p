@@ -3,6 +3,7 @@
     "TTFB",
     "asynciterable",
     "browserslist",
+    "desaturate",
     "saturationv"
   ],
   "files.exclude": {

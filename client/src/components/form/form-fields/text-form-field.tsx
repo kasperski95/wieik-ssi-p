@@ -24,5 +24,7 @@ export function TextFormField<T>(props: {
 }
 
 const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {},
+  container: {
+    marginBottom: dimensions.gutterLarge,
+  },
 }));
