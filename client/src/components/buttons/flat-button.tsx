@@ -14,7 +14,7 @@ export function FlatButton(props: {
         onClick={props.onClick}
         style={{ color: theme.active.main, ...styles.ripple }}
       >
-        <div style={styles.button(!!props.onClick)}>{props.label}</div>
+        <div style={styles.button(!props.onClick)}>{props.label}</div>
       </Ripple>
     </ThemeProvider>
   );

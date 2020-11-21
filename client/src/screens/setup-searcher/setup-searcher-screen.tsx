@@ -12,14 +12,28 @@ export function SetupSearcherScreen() {
   });
 
   return (
-    <Screen>
+    <Screen
+      title='Setup Searcher'
+      actions={[
+        { label: 'foo', onClick: () => {} },
+        { label: 'foo', onClick: () => {} },
+      ]}
+    >
       <Card.Wrapper>
         <Card.Content
           title='foo'
-          actions={[{ name: 'test', callback: () => {} }, { name: 'test' }]}
+          actions={[
+            { label: 'test', onClick: () => {} },
+            { label: 'test' },
+            { label: 'test', onClick: () => {} },
+            { label: 'test' },
+          ]}
         >
           test
         </Card.Content>
+      </Card.Wrapper>
+      <Card.Wrapper>
+        <Card.Content title='foo'>test</Card.Content>
       </Card.Wrapper>
 
       {/* <FormWrapper>

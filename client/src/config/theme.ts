@@ -22,10 +22,18 @@ export const { ThemeProvider, createUseStyle } = configureTheme({
     gutterLarge: 24,
     radiusSmall: 8,
     radiusMedium: 16,
+    appBarHeight: 60,
+    widthLimiter: 1366,
+    appBarIndex: 1000,
   },
   createSharedStyles: (theme) => ({
     typography: {
-      h2: {
+      title: {
+        fontFamily: 'Oswald',
+        fontSize: 24,
+        color: theme.active.contrast.strong,
+      },
+      l1: {
         fontSize: 24,
         color: theme.active.contrast.strong,
       },
@@ -36,7 +44,6 @@ export const { ThemeProvider, createUseStyle } = configureTheme({
       action: (disabled = false) => ({
         color: disabled ? theme.accent.weak : theme.accent.strong,
         fontWeight: 'bold',
-        textTransform: 'uppercase',
       }),
     },
     shadow: {

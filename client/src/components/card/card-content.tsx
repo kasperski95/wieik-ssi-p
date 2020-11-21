@@ -4,7 +4,7 @@ import { Button } from '../buttons';
 
 export function CardContent(props: {
   title: string;
-  actions?: { name: string; callback?: () => void }[];
+  actions?: { label: string; onClick?: () => void }[];
   children: React.ReactChild;
 }) {
   const { styles } = useStyle();
@@ -22,9 +22,9 @@ export function CardContent(props: {
             {props.actions!.map((action) => {
               return (
                 <Button.Flat
-                  key={action.name}
-                  label={action.name}
-                  onClick={action.callback}
+                  key={action.label}
+                  label={action.label}
+                  onClick={action.onClick}
                 />
               );
             })}
@@ -41,7 +41,7 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
       ...shared.typography.default,
     },
 
-    title: shared.typography.h2,
+    title: shared.typography.l1,
 
     actionWrapper: {
       borderTopWidth: 1,
@@ -49,11 +49,10 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
       borderTopColor: theme.active.main,
       margin: -dimensions.gutterMedium,
       marginTop: 0,
-      marginBottom: -dimensions.gutterSmall,
     },
 
     actionGutter: {
-      marginTop: dimensions.gutterSmall,
+      marginTop: dimensions.gutterMedium,
     },
   };
 });

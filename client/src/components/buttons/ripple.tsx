@@ -14,7 +14,7 @@ export function Ripple(props: {
     <ButtonBase
       style={combine([{ color: theme.active.contrast.main }, props.style])}
       onClick={props.onClick}
-      disabled={!!props.onClick}
+      disabled={!props.onClick}
     >
       {props.children}
     </ButtonBase>

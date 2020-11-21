@@ -1,5 +1,10 @@
 {
-  "cSpell.words": ["TTFB", "asynciterable", "browserslist"],
+  "cSpell.words": [
+    "TTFB",
+    "asynciterable",
+    "browserslist",
+    "saturationv"
+  ],
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
