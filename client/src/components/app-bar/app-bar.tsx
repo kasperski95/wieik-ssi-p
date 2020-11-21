@@ -37,7 +37,6 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
   container: {
     ...shared.shadow,
     width: '100%',
-    maxWidth: dimensions.widthLimiter,
     height: dimensions.appBarHeight,
     backgroundColor: theme.active.strong,
     display: 'flex',
@@ -49,6 +48,7 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
 
   content: (actionsExist) => ({
     width: '100%',
+    maxWidth: dimensions.widthLimiter,
     marginLeft: dimensions.gutterMedium,
     marginRight: actionsExist
       ? dimensions.gutterSmall

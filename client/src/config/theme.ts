@@ -24,7 +24,7 @@ export const { ThemeProvider, createUseStyle } = configureTheme({
     radiusSmall: 8,
     radiusMedium: 16,
     appBarHeight: 60,
-    widthLimiter: 1366,
+    widthLimiter: 960,
     appBarIndex: 1000,
   },
   createSharedStyles: (theme) => ({
@@ -34,8 +34,13 @@ export const { ThemeProvider, createUseStyle } = configureTheme({
         fontSize: 24,
         color: theme.active.contrast.strong,
       },
-      l1: {
+      h1: {
         fontSize: 24,
+        color: theme.active.contrast.strong,
+      },
+      h2: {
+        fontSize: 16,
+        fontWeight: 'bold',
         color: theme.active.contrast.strong,
       },
       default: {

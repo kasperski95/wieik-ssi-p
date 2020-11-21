@@ -28,14 +28,14 @@ function generateMediumTheme(main: string, contrastMain: string) {
 
   return {
     main: main,
-    weak: increaseContrast(main, -contrast),
+    weak: Color(main).mix(Color(contrastMain), 0.4).toString(),
     strong: increaseContrast(main, contrast),
     light: Color(main).lighten(contrast).toString(),
     dark: Color(main).darken(contrast).toString(),
 
     contrast: {
       main: contrastMain,
-      weak: increaseContrast(contrastMain, contrast),
+      weak: Color(contrastMain).mix(Color(main), 0.4).toString(),
       strong: increaseContrast(contrastMain, -contrast),
       light: Color(contrastMain).lighten(contrast).toString(),
       dark: Color(contrastMain).darken(contrast).toString(),

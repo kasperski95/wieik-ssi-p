@@ -13,21 +13,25 @@ export function Screen(props: {
     <React.Fragment>
       <AppBar title={props.title} actions={props.actions} />
       <div style={styles.gutter} />
-      <div style={styles.content}>{props.children}</div>
+      <div style={styles.contentWrapper}>
+        <div style={styles.content}>{props.children}</div>
+      </div>
     </React.Fragment>
   );
 }
 
 const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  content: {
+  contentWrapper: {
     display: 'flex',
+    width: '100%',
     justifyContent: 'center',
     paddingLeft: dimensions.gutterMedium,
     paddingRight: dimensions.gutterMedium,
-    maxWidth: dimensions.widthLimiter,
-    flexDirection: 'column',
   },
-
+  content: {
+    flex: 1,
+    maxWidth: dimensions.widthLimiter,
+  },
   gutter: {
     marginBottom: dimensions.gutterMedium,
   },

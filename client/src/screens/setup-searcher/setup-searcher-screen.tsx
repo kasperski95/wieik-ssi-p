@@ -2,7 +2,9 @@ import { useFormBloc } from '@src/blocs/form';
 import { Card } from '@src/components/card';
 import { Form, FormField } from '@src/components/form';
 import { Screen } from '@src/components/screen';
+import { Stepper } from '@src/components/stepper';
 import { Bloc } from '@src/modules/react-bloc';
+import { fetch } from '@src/utils/fetch';
 import React from 'react';
 
 export function SetupSearcherScreen() {
@@ -14,7 +16,9 @@ export function SetupSearcherScreen() {
       foo: 'bar',
     },
     {
-      onSubmit: () => {},
+      onSubmit: async () => {
+        await fetch('track');
+      },
     }
   );
 
@@ -26,6 +30,7 @@ export function SetupSearcherScreen() {
         { label: 'foo', onClick: () => {} },
       ]}
     >
+      <Stepper activeIndex={0} steps={['Track', 'Brand', 'Car']} />
       <Card.Wrapper>
         <Card.Content
           title='foo'

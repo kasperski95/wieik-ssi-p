@@ -41,7 +41,7 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
       ...shared.typography.default,
     },
 
-    title: shared.typography.l1,
+    title: shared.typography.h1,
 
     actionWrapper: {
       borderTopWidth: 1,

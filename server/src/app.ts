@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import { container } from 'tsyringe';
 import { Connection } from 'typeorm';
@@ -22,6 +23,7 @@ export class App {
     this.registerRepositories();
     const app = express();
     app.use(express.json());
+    app.use(cors());
 
     [
       new AuthEndpoint('auth', container.resolve(DI.userRepository)),
