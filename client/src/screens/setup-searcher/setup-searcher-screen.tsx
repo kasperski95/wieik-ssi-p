@@ -1,66 +1,50 @@
-import { useFormBloc } from '@src/blocs/form';
-import { Card } from '@src/components/card';
-import { Form, FormField } from '@src/components/form';
+import { PhotoCard } from '@src/components/photo-card';
 import { Screen } from '@src/components/screen';
 import { Stepper } from '@src/components/stepper';
-import { Bloc } from '@src/modules/react-bloc';
-import { fetch } from '@src/utils/fetch';
+import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 
-export function SetupSearcherScreen() {
-  Bloc.logger = console;
+export function SetupSearcherScreen(props: {
+  trackId?: string | null;
+  brandId?: string | null;
+}) {
+  const { styles } = useStyle();
 
-  const formBloc = useFormBloc(
-    'abc',
-    {
-      foo: 'bar',
-    },
-    {
-      onSubmit: async () => {
-        await fetch('track');
-      },
-    }
-  );
+  console.log(props);
 
   return (
     <Screen
       title='Setup Searcher'
-      actions={[
-        { label: 'foo', onClick: () => {} },
-        { label: 'foo', onClick: () => {} },
-      ]}
+      actions={[{ label: 'Rejestracja' }, { label: 'Logowanie' }]}
     >
-      <Stepper activeIndex={0} steps={['Track', 'Brand', 'Car']} />
-      <Card.Wrapper>
-        <Card.Content
-          title='foo'
-          actions={[
-            { label: 'test', onClick: () => {} },
-            { label: 'test' },
-            { label: 'test', onClick: () => {} },
-            { label: 'test' },
-          ]}
-        >
-          test
-        </Card.Content>
-      </Card.Wrapper>
-      <Card.Wrapper>
-        <Card.Content title='foo'>test</Card.Content>
-      </Card.Wrapper>
+      <Stepper
+        style={styles.stepper}
+        activeIndex={0}
+        steps={['Track', 'Brand', 'Car']}
+      />
 
-      <Form.Wrapper formBloc={formBloc}>
-        <Form.Builder
-          formBloc={formBloc}
-          builder={(formData, createProps) => {
-            return (
-              <React.Fragment>
-                <FormField.Text label='test' {...createProps('foo')} />
-                <FormField.Text label='test' {...createProps('foo')} />
-              </React.Fragment>
-            );
-          }}
-        />
-      </Form.Wrapper>
+      <PhotoCard title='Nurburgring' positionY={0.75} />
+      <PhotoCard title='Misano' />
     </Screen>
   );
 }
+
+const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
+  stepper: {
+    marginBottom: dimensions.gutterMedium,
+  },
+}));
+
+/* <Form.Wrapper formBloc={formBloc}>
+<Form.Builder
+  formBloc={formBloc}
+  builder={(formData, createProps) => {
+    return (
+      <React.Fragment>
+        <FormField.Text label='test' {...createProps('foo')} />
+        <FormField.Text label='test' {...createProps('foo')} />
+      </React.Fragment>
+    );
+  }}
+/>
+</Form.Wrapper> */

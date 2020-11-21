@@ -39,6 +39,7 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
   return {
     container: {
       ...shared.typography.default,
+      margin: dimensions.gutterMedium,
     },
 
     title: shared.typography.h1,

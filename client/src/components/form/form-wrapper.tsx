@@ -38,6 +38,7 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
     container: {
       display: 'flex',
       flexDirection: 'column',
+      padding: dimensions.gutterMedium,
     },
     buttonWrapper: {
       display: 'flex',

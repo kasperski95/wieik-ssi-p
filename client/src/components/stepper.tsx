@@ -1,11 +1,16 @@
 import { createUseStyle } from '@src/config/theme';
+import { combine } from '@src/modules/css-in-jsx';
 import React from 'react';
 
-export function Stepper(props: { steps: string[]; activeIndex: number }) {
+export function Stepper(props: {
+  steps: string[];
+  activeIndex: number;
+  style?: React.CSSProperties;
+}) {
   const { styles } = useStyle();
 
   return (
-    <div style={styles.container}>
+    <div style={combine([styles.container, props.style])}>
       {props.steps.map((step, index) => {
         const isActive = index === props.activeIndex;
         return (

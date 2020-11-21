@@ -22,7 +22,8 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => {
     container: {
       width: '100%',
       backgroundColor: theme.active.light,
-      padding: dimensions.gutterMedium,
+      // padding: dimensions.gutterMedium,
+      overflow: 'hidden',
       borderRadius: dimensions.radiusSmall,
       marginBottom: dimensions.gutterMedium,
       ...shared.shadow,
