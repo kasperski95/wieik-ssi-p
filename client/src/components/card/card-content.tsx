@@ -7,7 +7,7 @@ export function CardContent(props: {
   title: string;
   titleStyle?: React.CSSProperties;
   actions?: { label: string; onClick?: () => void }[];
-  children: React.ReactChild;
+  children: React.ReactChild | React.ReactChild[];
 }) {
   const { styles } = useStyle();
 

@@ -1,5 +1,6 @@
 import { BrandsFetcher } from '@src/components/fetcher/brands-fetcher';
 import { CarsFetcher } from '@src/components/fetcher/car-fetcher';
+import { SetupFetcher } from '@src/components/fetcher/setup-fetcher';
 import { TracksFetcher } from '@src/components/fetcher/tracks-fetcher';
 import { Screen } from '@src/components/screen';
 import { Stepper } from '@src/components/stepper';
@@ -10,6 +11,7 @@ import { useHistory } from 'react-router-dom';
 export function SetupSearcherScreen(props: {
   trackId?: string | null;
   brandId?: string | null;
+  carId?: string | null;
 }) {
   const { styles } = useStyle();
   const history = useHistory();
@@ -17,6 +19,7 @@ export function SetupSearcherScreen(props: {
   let activeIndex = 0;
   if (props.trackId) activeIndex = 1;
   if (props.trackId && props.brandId) activeIndex = 2;
+  if (props.trackId && props.carId) activeIndex = 3;
 
   return (
     <Screen
@@ -40,13 +43,28 @@ export function SetupSearcherScreen(props: {
             label: 'Choose Brand',
             renderer: () => <BrandsFetcher />,
             onClick: () => {
-              history.goBack();
+              for (let i = 1; i < activeIndex; ++i) {
+                history.goBack();
+              }
             },
           },
           {
             label: 'Choose Car',
+            onClick: () => {
+              for (let i = 2; i < activeIndex; ++i) {
+                history.goBack();
+              }
+            },
             renderer: () => {
               return <CarsFetcher brandId={props.brandId!} />;
+            },
+          },
+          {
+            label: 'Choose Setup',
+            renderer: () => {
+              return (
+                <SetupFetcher trackId={props.trackId!} carId={props.carId!} />
+              );
             },
           },
         ]}

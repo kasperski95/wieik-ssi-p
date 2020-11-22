@@ -4,11 +4,13 @@ import { Brand } from '@src/models/brand';
 import { Car } from '@src/models/car';
 import { goFetch } from '@src/utils/fetch';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { PhotoCard } from '../photo-card';
 import { Fetcher } from './index';
 
 export function CarsFetcher(props: { brandId: string }) {
   const { styles } = useStyle();
+  const history = useHistory();
 
   const fetcherBloc = useFetcherBloc('car', async (brandId: string) => {
     const brand: Brand = await goFetch(`brand/${brandId}`);
@@ -38,7 +40,13 @@ export function CarsFetcher(props: { brandId: string }) {
                   key={car.id}
                   title={car.name}
                   imageFileName={car.brand!.name + ' ' + car.name}
-                  onClick={() => {}}
+                  onClick={() => {
+                    history.push(
+                      history.location.pathname +
+                        history.location.search +
+                        `&c=${car.id}`
+                    );
+                  }}
                   positionY={positionY}
                 />
               );

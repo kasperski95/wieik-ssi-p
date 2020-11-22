@@ -19,6 +19,7 @@ export function Router() {
                 <SetupSearcherScreen
                   trackId={queryVariables.get('t')}
                   brandId={queryVariables.get('b')}
+                  carId={queryVariables.get('c')}
                 />
               );
             }}

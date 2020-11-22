@@ -15,7 +15,15 @@ export class FetcherBloc<T, R> extends Bloc<
       try {
         yield new FetcherStates.Loading();
         const result = await this.fetch(event.variables);
-        yield new FetcherStates.Success(result);
+        if (!result) {
+          yield new FetcherStates.NoResults();
+        } else {
+          if (Array.isArray(result) && result.length === 0) {
+            yield new FetcherStates.NoResults();
+          } else {
+            yield new FetcherStates.Success(result);
+          }
+        }
       } catch (err) {
         yield new FetcherStates.Failure(err?.message);
         console.error(err);

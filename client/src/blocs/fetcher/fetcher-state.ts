@@ -4,6 +4,8 @@ export abstract class FetcherState extends BlocState {}
 
 export class Loading extends FetcherState {}
 
+export class NoResults extends FetcherState {}
+
 export class Success<T> extends FetcherState {
   constructor(public result: T) {
     super();

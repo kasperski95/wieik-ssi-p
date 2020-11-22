@@ -23,10 +23,12 @@ export function Stepper(props: {
           return (
             <div
               key={step.label}
-              style={styles.stepWrapper}
+              style={styles.stepWrapper(isClickable)}
               onClick={index < props.activeIndex ? step.onClick : undefined}
             >
-              <div style={styles.circle(isActive)}>{index + 1}</div>
+              <div style={styles.circle(isActive, isClickable)}>
+                {index + 1}
+              </div>
               <div style={styles.label(isActive, isClickable)}>
                 {step.label}
               </div>
@@ -45,17 +47,26 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     display: 'flex',
     justifyContent: 'space-evenly',
   },
-  stepWrapper: {
+  stepWrapper: (clickable: boolean) => ({
     display: 'inline-block',
-  },
-  circle: (active: boolean) => ({
+    cursor: clickable ? 'pointer' : 'default',
+  }),
+  circle: (active: boolean, clickable: boolean) => ({
     ...shared.typography.h2,
     display: 'inline-flex',
     width: 28,
     height: 28,
     borderWidth: 2,
-    borderColor: active ? theme.accent.main : theme.active.contrast.weak,
-    color: active ? theme.accent.main : theme.active.contrast.weak,
+    borderColor: active
+      ? theme.accent.main
+      : clickable
+      ? theme.clickable.main
+      : theme.active.contrast.weak,
+    color: active
+      ? theme.accent.main
+      : clickable
+      ? theme.clickable.main
+      : theme.active.contrast.weak,
     borderStyle: 'solid',
     borderRadius: '100%',
     lineHeight: 1,

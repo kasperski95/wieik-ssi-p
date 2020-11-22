@@ -31,9 +31,11 @@ export function Fetcher<S, T>(props: {
               <LoadingIndicator />
             </div>
           );
+        } else if (state instanceof FetcherStates.NoResults) {
+          return <div style={styles.noResultsWrapper}>No results.</div>;
         }
 
-        return <div />;
+        return <div>Unexpected state</div>;
       }}
     />
   );
@@ -54,5 +56,11 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     display: 'flex',
     justifyContent: 'center',
     padding: dimensions.gutterLarge,
+  },
+  noResultsWrapper: {
+    ...shared.typography.h2,
+    display: 'flex',
+    padding: dimensions.gutterLarge,
+    justifyContent: 'center',
   },
 }));

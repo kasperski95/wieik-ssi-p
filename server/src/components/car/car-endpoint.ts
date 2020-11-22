@@ -12,7 +12,6 @@ export class CarEndpoint extends AbstractEndpoint<UserRoles> {
   main() {
     this.get(async (req, res) => {
       const brandId = req.query.b as string;
-
       if (!brandId) throw new APIException(StatusCodes.BAD_REQUEST);
 
       const result = await this.carRepository.find({
@@ -23,5 +22,18 @@ export class CarEndpoint extends AbstractEndpoint<UserRoles> {
 
       res.send(result);
     });
+
+    this.get(
+      async (req, res) => {
+        const carId = req.params.id as string;
+        if (!carId) throw new APIException(StatusCodes.BAD_REQUEST);
+
+        const result = await this.carRepository.findOne(carId);
+
+        if (!result) throw new APIException(StatusCodes.NOT_FOUND);
+        res.send(result);
+      },
+      { routeSuffix: '/:id' }
+    );
   }
 }
