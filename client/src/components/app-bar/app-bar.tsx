@@ -50,9 +50,7 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     width: '100%',
     maxWidth: dimensions.widthLimiter,
     marginLeft: dimensions.gutterMedium,
-    marginRight: actionsExist
-      ? dimensions.gutterSmall
-      : dimensions.gutterMedium,
+    marginRight: actionsExist ? 0 : dimensions.gutterMedium,
     display: 'flex',
   }),
 

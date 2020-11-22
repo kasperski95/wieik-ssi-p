@@ -1,19 +1,30 @@
 import { createUseStyle } from '@src/config/theme';
+import { combine } from '@src/modules/css-in-jsx';
 import Case from 'case';
 import React from 'react';
 import { Ripple } from './buttons/ripple';
 import { Card } from './card';
 
 export function PhotoCard(props: {
-  title: string;
+  imageFileName: string;
+  title?: string;
+  style?: React.CSSProperties;
   positionY?: number;
   onClick?: () => void;
+  format?: 'jpg' | 'png';
 }) {
   const { styles } = useStyle();
   const [isMouseOver, setIsMouseOver] = React.useState(false);
 
+  const shouldRenderTitle = !!props.title;
+
   return (
-    <Card.Wrapper style={styles.container(!props.onClick)}>
+    <Card.Wrapper
+      style={combine([
+        styles.container(!props.onClick, isMouseOver),
+        props.style,
+      ])}
+    >
       <Ripple
         style={styles.ripple}
         onClick={props.onClick}
@@ -24,30 +35,42 @@ export function PhotoCard(props: {
       >
         <div
           style={styles.background(
-            props.title,
+            props.imageFileName,
             props.positionY || 0.5,
-            isMouseOver ? 1.1 : 1
+            isMouseOver ? 1.1 : 1,
+            props.format
           )}
         />
-        <div style={styles.gradient}>
-          <div style={styles.title}>{props.title}</div>
-        </div>
+
+        {shouldRenderTitle && (
+          <div style={styles.gradient}>
+            <div style={styles.title}>{props.title}</div>
+          </div>
+        )}
       </Ripple>
     </Card.Wrapper>
   );
 }
 
 const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: (disabled: boolean) => ({
+  container: (disabled: boolean, isMouseOver: boolean) => ({
     height: 160,
     borderWidth: 2,
     borderStyle: disabled ? undefined : 'solid',
-    borderColor: theme.clickable.main,
+    borderColor: isMouseOver ? theme.clickable.strong : theme.clickable.main,
+    boxShadow: isMouseOver
+      ? `0 0 3px 0 ${theme.clickable.main}`
+      : shared.shadow.boxShadow,
   }),
-  background: (title: string, positionY: number, scale: number) => ({
+  background: (
+    title: string,
+    positionY: number,
+    scale: number,
+    format: 'jpg' | 'png' = 'jpg'
+  ) => ({
     width: '100%',
     height: '100%',
-    backgroundImage: `url("/assets/images/${Case.kebab(title)}.jpg")`,
+    backgroundImage: `url("/assets/images/${Case.kebab(title)}.${format}")`,
     backgroundSize: 'cover',
     backgroundPositionY: `${positionY * 100}%`,
     position: 'absolute',

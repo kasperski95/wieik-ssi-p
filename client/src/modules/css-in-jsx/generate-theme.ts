@@ -11,13 +11,18 @@ const palette = {
 
 function generateColorGroupWithContrast(
   main: string,
-  contrastMain: string
+  contrastMain: string,
+  darkMode: boolean
 ): ColorGroupWithContrast {
   const contrast = 0.75;
 
-  const increaseContrast = (color: string, value: number) => {
+  const increaseContrast = (
+    color: string,
+    value: number,
+    darkMode: boolean
+  ) => {
     if (Color(main).saturationv() < 80) {
-      return (Color(main).isDark()
+      return (darkMode
         ? Color(color).darken(value)
         : Color(color).lighten(value)
       ).toString();
@@ -32,14 +37,14 @@ function generateColorGroupWithContrast(
   return {
     main: main,
     weak: Color(main).mix(Color(contrastMain), 0.4).toString(),
-    strong: increaseContrast(main, contrast),
+    strong: increaseContrast(main, contrast, darkMode),
     light: Color(main).lighten(contrast).toString(),
     dark: Color(main).darken(contrast).toString(),
 
     contrast: {
       main: contrastMain,
       weak: Color(contrastMain).mix(Color(main), 0.4).toString(),
-      strong: increaseContrast(contrastMain, -contrast),
+      strong: increaseContrast(contrastMain, -contrast, Color(main).isDark()),
       light: Color(contrastMain).lighten(contrast).toString(),
       dark: Color(contrastMain).darken(contrast).toString(),
     },
@@ -48,7 +53,7 @@ function generateColorGroupWithContrast(
 
 function generateMediumTheme(main: string, contrastMain: string): MediumTheme {
   return {
-    ...generateColorGroupWithContrast(main, contrastMain),
+    ...generateColorGroupWithContrast(main, contrastMain, Color(main).isDark()),
     divider: {
       main: Color(main).mix(Color(contrastMain), 0.2).toString(),
     },
@@ -58,7 +63,11 @@ function generateMediumTheme(main: string, contrastMain: string): MediumTheme {
         main: Color(palette.white).toString(),
       },
     },
-    error: generateColorGroupWithContrast('#990000', '#eee'),
+    error: generateColorGroupWithContrast(
+      '#990000',
+      '#eee',
+      Color(main).isDark()
+    ),
     warning: {
       main: Color(palette.orange).mix(Color(main), 0.2).toString(),
       contrast: {

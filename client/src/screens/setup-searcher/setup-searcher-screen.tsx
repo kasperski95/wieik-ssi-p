@@ -1,28 +1,18 @@
-import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
-import { Fetcher } from '@src/components/fetcher';
-import { PhotoCard } from '@src/components/photo-card';
+import { BrandsFetcher } from '@src/components/fetcher/brands-fetcher';
+import { TracksFetcher } from '@src/components/fetcher/tracks-fetcher';
 import { Screen } from '@src/components/screen';
 import { Stepper } from '@src/components/stepper';
 import { createUseStyle } from '@src/config/theme';
-import { Track } from '@src/models/track';
-import { goFetch } from '@src/utils/fetch';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 
 export function SetupSearcherScreen(props: {
   trackId?: string | null;
   brandId?: string | null;
 }) {
   const { styles } = useStyle();
-  const history = useHistory();
-
-  const fetcherBloc = useFetcherBloc('track', async () => {
-    return (await goFetch('track')) as Track[];
-  });
-
-  React.useEffect(() => {
-    fetcherBloc.dispatch(new FetcherEvents.Fetch());
-  }, []);
+  let activeIndex = 0;
+  if (props.trackId) activeIndex = 1;
+  if (props.trackId && props.brandId) activeIndex = 2;
 
   return (
     <Screen
@@ -31,35 +21,12 @@ export function SetupSearcherScreen(props: {
     >
       <Stepper
         style={styles.stepper}
-        activeIndex={0}
-        steps={['Choose Track', 'Choose Brand', 'Choose Car']}
-      />
-
-      <Fetcher
-        fetcherBloc={fetcherBloc}
-        builder={(result) => {
-          return (
-            <React.Fragment>
-              {result.map((track) => {
-                let positionY = undefined as undefined | number;
-                switch (track.name) {
-                  case 'Nurburgring':
-                    positionY = 0.75;
-                    break;
-                }
-
-                return (
-                  <PhotoCard
-                    key={track.id}
-                    onClick={() => history.push(`/?t=${track.id}`)}
-                    title={track.name}
-                    positionY={positionY}
-                  />
-                );
-              })}
-            </React.Fragment>
-          );
-        }}
+        activeIndex={activeIndex}
+        steps={[
+          { label: 'Choose Track', body: <TracksFetcher /> },
+          { label: 'Choose Brand', body: <BrandsFetcher /> },
+          { label: 'Choose Car' },
+        ]}
       />
     </Screen>
   );

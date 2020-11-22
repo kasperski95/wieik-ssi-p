@@ -3,24 +3,29 @@ import { combine } from '@src/modules/css-in-jsx';
 import React from 'react';
 
 export function Stepper(props: {
-  steps: string[];
+  steps: { label: string; body?: React.ReactNode }[];
   activeIndex: number;
   style?: React.CSSProperties;
 }) {
   const { styles } = useStyle();
+  const shouldRenderBody = !!props.steps[props.activeIndex].body;
 
   return (
-    <div style={combine([styles.container, props.style])}>
-      {props.steps.map((step, index) => {
-        const isActive = index === props.activeIndex;
-        return (
-          <div key={step} style={styles.stepWrapper}>
-            <div style={styles.circle(isActive)}>{index + 1}</div>
-            <div style={styles.label(isActive)}>{step}</div>
-          </div>
-        );
-      })}
-    </div>
+    <React.Fragment>
+      <div style={combine([styles.container, props.style])}>
+        {props.steps.map((step, index) => {
+          const isActive = index === props.activeIndex;
+          return (
+            <div key={step.label} style={styles.stepWrapper}>
+              <div style={styles.circle(isActive)}>{index + 1}</div>
+              <div style={styles.label(isActive)}>{step.label}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      {shouldRenderBody && props.steps[props.activeIndex].body}
+    </React.Fragment>
   );
 }
 
