@@ -24,7 +24,15 @@ export function SetupSearcherScreen(props: {
   return (
     <Screen
       title='Setup Searcher'
-      actions={[{ label: 'Register' }, { label: 'Log In' }]}
+      actions={[
+        { label: 'Register' },
+        {
+          label: 'Log In',
+          onClick: () => {
+            history.push('/login');
+          },
+        },
+      ]}
     >
       <Stepper
         style={styles.stepper}

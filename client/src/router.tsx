@@ -1,6 +1,7 @@
 import { createUseStyle, ThemeProvider } from '@src/config/theme';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { LoginScreen } from './screens/login/login-screen';
 import { SetupSearcherScreen } from './screens/setup-searcher/setup-searcher-screen';
 
 export function Router() {
@@ -11,6 +12,12 @@ export function Router() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
+          <Route
+            path='/login'
+            render={() => {
+              return <LoginScreen />;
+            }}
+          />
           <Route
             path='/'
             render={({ location }) => {

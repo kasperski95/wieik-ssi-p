@@ -7,6 +7,7 @@ export function TextFormField<T>(props: {
   id: keyof T;
   bloc: FormBloc<T>;
   label: string;
+  obscure?: boolean;
 }) {
   const value = props.bloc.getValue(props.id);
   const { styles } = useStyle();
@@ -16,6 +17,7 @@ export function TextFormField<T>(props: {
       style={styles.container}
       value={value}
       label={props.label}
+      type={props.obscure ? 'password' : undefined}
       onChange={(e) => {
         props.bloc.dispatch(new FormEvents.Update<T>(props.id, e.target.value));
       }}

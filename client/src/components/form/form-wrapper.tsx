@@ -1,6 +1,7 @@
 import { FormBloc, FormEvents } from '@src/blocs/form';
 import { Card } from '@src/components/card';
 import { createUseStyle } from '@src/config/theme';
+import { combine } from '@src/modules/css-in-jsx';
 import { BlocBuilder } from '@src/modules/react-bloc';
 import React from 'react';
 import { Button } from '../buttons';
@@ -8,11 +9,12 @@ import { Button } from '../buttons';
 export function FormWrapper<T>(props: {
   children: React.ReactNode;
   formBloc: FormBloc<T>;
+  style?: React.CSSProperties;
 }) {
   const { styles } = useStyle();
 
   return (
-    <Card.Wrapper style={styles.container}>
+    <Card.Wrapper style={combine([styles.container, props.style])}>
       {props.children}
       <div style={styles.buttonWrapper}>
         <BlocBuilder

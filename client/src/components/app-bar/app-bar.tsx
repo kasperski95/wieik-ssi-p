@@ -1,19 +1,35 @@
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { createUseStyle } from '@src/config/theme';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Button } from '../buttons';
 
 export function AppBar(props: {
   title: string;
+  showGoBack?: boolean;
   actions?: { label: string; onClick?: () => void }[];
 }) {
   const { styles } = useStyle();
+  const history = useHistory();
 
   const shouldRenderActions = !!props.actions;
 
   return (
     <div style={styles.container}>
       <div style={styles.content(shouldRenderActions)}>
-        <div style={styles.title}>{props.title}</div>
+        <div style={styles.titleWrapper}>
+          {props.showGoBack && (
+            <Button.Icon
+              rippleStyle={styles.iconButton}
+              onClick={() => {
+                history.goBack();
+              }}
+            >
+              <ArrowBackIcon style={styles.arrow} />
+            </Button.Icon>
+          )}
+          <div style={styles.title}>{props.title}</div>
+        </div>
         {shouldRenderActions && (
           <React.Fragment>
             <div style={styles.gutter} />
@@ -53,9 +69,21 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     marginRight: actionsExist ? 0 : dimensions.gutterMedium,
     display: 'flex',
   }),
-
-  title: { display: 'inline-block', ...shared.typography.title },
-
+  titleWrapper: {
+    display: 'inline-flex',
+    alignItems: 'center',
+  },
+  title: {
+    ...shared.typography.title,
+    marginBottom: 3,
+  },
+  iconButton: {
+    marginLeft: -dimensions.gutterMedium,
+  },
+  arrow: {
+    width: '100%',
+    height: '100%',
+  },
   gutter: {
     flex: 1,
     minWidth: dimensions.gutterMedium,
