@@ -4,7 +4,7 @@ import { Ripple } from './ripple';
 import { ButtonProps } from './types';
 
 export function FlatButton(props: ButtonProps) {
-  const { theme, styles } = useStyle('accent');
+  const { theme, styles } = useStyle('clickable');
 
   return (
     <ThemeProvider theme={theme}>

@@ -27,7 +27,7 @@ export function configureTheme<T extends UnlimitedDepthStyle, D>(data: {
                   primary: theme.active.contrast.main,
                   secondary: 'red',
                 },
-                primary: { main: theme.accent.main },
+                primary: { main: theme.clickable.main },
                 background: {
                   default: theme.active.dark,
                   paper: theme.active.light,

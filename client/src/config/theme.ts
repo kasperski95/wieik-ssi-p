@@ -10,7 +10,7 @@ const palette = {
 
 export const { ThemeProvider, createUseStyle } = configureTheme({
   theme: generateTheme({
-    accent: {
+    clickable: {
       main: palette.red,
       contrast: {
         main: palette.white,
@@ -52,7 +52,7 @@ export const { ThemeProvider, createUseStyle } = configureTheme({
         fontWeight: 'bold',
       },
       action: (disabled = false) => ({
-        color: disabled ? theme.accent.weak : theme.accent.strong,
+        color: disabled ? theme.clickable.weak : theme.clickable.strong,
         fontWeight: 'bold',
       }),
     },

@@ -42,7 +42,7 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     height: 160,
     borderWidth: 2,
     borderStyle: disabled ? undefined : 'solid',
-    borderColor: theme.accent.main,
+    borderColor: theme.clickable.main,
   }),
   background: (title: string, positionY: number, scale: number) => ({
     width: '100%',

@@ -4,12 +4,12 @@ import { Ripple } from './ripple';
 import { ButtonProps } from './types';
 
 export function SubmitButton(props: ButtonProps) {
-  const { styles, theme } = useStyle('accent');
+  const { styles, theme } = useStyle('clickable');
 
   return (
     <ThemeProvider theme={theme}>
       <Ripple
-        style={{ color: theme.accent.contrast.main }}
+        style={{ color: theme.clickable.contrast.main }}
         onClick={props.onClick}
       >
         <div style={styles.button(!props.onClick)}>{props.label}</div>

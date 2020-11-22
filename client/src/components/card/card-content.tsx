@@ -1,9 +1,11 @@
 import { createUseStyle } from '@src/config/theme';
+import { combine } from '@src/modules/css-in-jsx';
 import React from 'react';
 import { Button } from '../buttons';
 
 export function CardContent(props: {
   title: string;
+  titleStyle?: React.CSSProperties;
   actions?: { label: string; onClick?: () => void }[];
   children: React.ReactChild;
 }) {
@@ -13,7 +15,7 @@ export function CardContent(props: {
 
   return (
     <div style={styles.container}>
-      <div style={styles.title}>{props.title}</div>
+      <div style={combine([styles.title, props.titleStyle])}>{props.title}</div>
       <div>{props.children}</div>
       {shouldRenderActions && (
         <React.Fragment>

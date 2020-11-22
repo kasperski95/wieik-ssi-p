@@ -1,14 +1,20 @@
-type Color = string;
-
-export interface ColorGroupBase {
-  main: Color;
+export interface Color {
+  main: string;
 }
 
-export interface ColorGroup extends ColorGroupBase {
-  weak: Color;
-  strong: Color;
-  light: Color;
-  dark: Color;
+export interface ColorWithContrast extends Color {
+  contrast: Color;
+}
+
+export interface ColorGroup extends Color {
+  weak: string;
+  strong: string;
+  light: string;
+  dark: string;
+}
+
+export interface ColorGroupWithContrast extends ColorGroup {
+  contrast: ColorGroup;
 }
 
 export interface MiniTheme extends ColorGroup {
@@ -16,15 +22,16 @@ export interface MiniTheme extends ColorGroup {
 }
 
 export interface MediumTheme extends MiniTheme {
-  divider: ColorGroupBase;
-  success: ColorGroupBase;
-  error: ColorGroupBase;
-  warning: ColorGroupBase;
+  divider: Color;
+  success: ColorWithContrast;
+  error: ColorGroupWithContrast;
+  warning: ColorWithContrast;
 }
 
 export interface ThemeCore {
   light: MediumTheme;
   dark: MediumTheme;
+  clickable: MediumTheme;
   accent: MediumTheme;
 }
 

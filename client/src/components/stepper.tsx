@@ -38,10 +38,8 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     width: 28,
     height: 28,
     borderWidth: 2,
-    borderColor: active
-      ? theme.active.contrast.strong
-      : theme.active.contrast.weak,
-    color: active ? theme.active.contrast.strong : theme.active.contrast.weak,
+    borderColor: active ? theme.accent.main : theme.active.contrast.weak,
+    color: active ? theme.accent.main : theme.active.contrast.weak,
     borderStyle: 'solid',
     borderRadius: '100%',
     lineHeight: 1,
@@ -52,7 +50,7 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
   }),
   label: (active: boolean) => ({
     ...shared.typography.h2,
-    color: active ? theme.active.contrast.strong : theme.active.contrast.weak,
+    color: active ? theme.accent.main : theme.active.contrast.weak,
     display: 'inline-flex',
   }),
 }));

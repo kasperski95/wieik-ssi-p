@@ -9,12 +9,5 @@ export function useFormBloc<T extends { [key: string]: any }>(
   options?: FormBlocOptions<T>
 ) {
   if (!container[token]) container[token] = new FormBloc(initialData, options);
-
-  // React.useEffect(() => {
-  //   return () => {
-  //     container[token] = undefined;
-  //   };
-  // }, []);
-
   return container[token] as FormBloc<T>;
 }
