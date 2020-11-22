@@ -1,5 +1,5 @@
 import Color from 'color';
-import { ColorGroupWithContrast, MediumTheme, Theme } from './types';
+import { ColorGroupWithContrast, MediumTheme, Theme, ThemeCore } from './types';
 
 const palette = {
   white: '#c0c0c0',
@@ -77,12 +77,15 @@ function generateMediumTheme(main: string, contrastMain: string): MediumTheme {
   };
 }
 
-export function generateTheme(theme: {
-  clickable: { main: string; contrast: { main: string } };
-}): Theme {
+export function generateTheme(
+  active: keyof ThemeCore,
+  theme: {
+    clickable: { main: string; contrast: { main: string } };
+  }
+): Theme {
   return {
     get active() {
-      return this.light;
+      return this[active];
     },
     light: generateMediumTheme(palette.white, palette.black),
     dark: generateMediumTheme(palette.black, palette.white),

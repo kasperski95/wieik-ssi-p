@@ -2,15 +2,16 @@ import { StatusCodes } from 'http-status-codes';
 import { container } from 'tsyringe';
 import { AbstractEndpoint } from '../../abstractions/endpoint';
 import { APIException } from '../../abstractions/exception';
+import { UserRepository } from '../user';
 import { AuthService } from './auth-service';
-import { AuthDI, UserCoreRepository } from './auth-types';
+import { AuthDI } from './auth-types';
 
 export class AuthEndpoint extends AbstractEndpoint<any> {
   private authService: AuthService;
 
-  constructor(protected route: string, userCoreRepository: UserCoreRepository) {
+  constructor(protected route: string, private userRepository: UserRepository) {
     super(route);
-    container.registerInstance(AuthDI.userCoreRepository, userCoreRepository);
+    container.registerInstance(AuthDI.userCoreRepository, userRepository);
     this.authService = container.resolve(AuthService);
   }
 
@@ -23,6 +24,18 @@ export class AuthEndpoint extends AbstractEndpoint<any> {
 
       const result = await this.authService.createJWT(email, password);
       res.send(result);
+    });
+
+    this.get(async (req, res) => {
+      const token = req.headers.authorization?.replace('Bearer ', '');
+      if (!token) throw new APIException(StatusCodes.BAD_REQUEST);
+
+      const id = await this.authService.decodeJWT(token);
+      const user = await this.userRepository.findOne(id);
+
+      if (!user) throw new APIException(StatusCodes.NOT_FOUND);
+      user.password = '';
+      res.send(user);
     });
   }
 }

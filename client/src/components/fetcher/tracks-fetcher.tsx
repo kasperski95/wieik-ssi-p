@@ -1,7 +1,7 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
+import { useBackend } from '@src/config/create-backend-utils';
 import { createUseStyle } from '@src/config/theme';
 import { Track } from '@src/models/track';
-import { goFetch } from '@src/utils/fetch';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { PhotoCard } from '../photo-card';
@@ -9,10 +9,11 @@ import { Fetcher } from './index';
 
 export function TracksFetcher() {
   const { styles } = useStyle();
+  const { fetch } = useBackend();
   const history = useHistory();
 
   const fetcherBloc = useFetcherBloc('track', async () => {
-    return (await goFetch('track')) as Track[];
+    return (await fetch('track')) as Track[];
   });
 
   React.useEffect(() => {

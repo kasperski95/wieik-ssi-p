@@ -1,10 +1,10 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
+import { useBackend } from '@src/config/create-backend-utils';
 import { createUseStyle } from '@src/config/theme';
 import { Brand } from '@src/models/brand';
 import { Car } from '@src/models/car';
 import { Setup } from '@src/models/setup';
 import { Track } from '@src/models/track';
-import { goFetch } from '@src/utils/fetch';
 import { humanizeTime } from '@src/utils/humanize-time';
 import Case from 'case';
 import React from 'react';
@@ -14,21 +14,22 @@ import { Fetcher } from './index';
 
 export function SetupFetcher(props: { trackId: string; carId: string }) {
   const { styles } = useStyle();
+  const { fetch } = useBackend();
   const history = useHistory();
 
   const fetcherBloc = useFetcherBloc(
     'setup',
     async (variables: { trackId: string; carId: string }) => {
-      const track: Track = await goFetch(`track/${variables.trackId}`);
-      const car: Car = await goFetch(`car/${variables.carId}`);
-      const brand: Brand = await goFetch(`brand/${car.brandId}`);
+      const track: Track = await fetch(`track/${variables.trackId}`);
+      const car: Car = await fetch(`car/${variables.carId}`);
+      const brand: Brand = await fetch(`brand/${car.brandId}`);
       car.brand = brand;
-      const setups: Setup[] = await goFetch(`setup`, {
+      const setups: Setup[] = await fetch(`setup`, {
         params: { c: variables.carId, t: variables.trackId },
       });
 
       for await (const setup of setups) {
-        setup.user = await goFetch(`user/${setup.userId}`);
+        setup.user = await fetch(`user/${setup.userId}`);
         setup.car = car;
         setup.track = track;
       }

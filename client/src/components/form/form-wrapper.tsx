@@ -1,4 +1,4 @@
-import { FormBloc, FormEvents } from '@src/blocs/form';
+import { FormBloc, FormEvents, FormStates } from '@src/blocs/form';
 import { Card } from '@src/components/card';
 import { createUseStyle } from '@src/config/theme';
 import { combine } from '@src/modules/css-in-jsx';
@@ -6,9 +6,9 @@ import { BlocBuilder } from '@src/modules/react-bloc';
 import React from 'react';
 import { Button } from '../buttons';
 
-export function FormWrapper<T>(props: {
+export function FormWrapper<T, R>(props: {
   children: React.ReactNode;
-  formBloc: FormBloc<T>;
+  formBloc: FormBloc<T, R>;
   style?: React.CSSProperties;
 }) {
   const { styles } = useStyle();
@@ -20,12 +20,18 @@ export function FormWrapper<T>(props: {
         <BlocBuilder
           bloc={props.formBloc}
           builder={(state) => {
+            const disabled = state instanceof FormStates.Sending;
+
             return (
               <Button.Submit
                 label='Wyślij'
-                onClick={() => {
-                  props.formBloc.dispatch(new FormEvents.Submit());
-                }}
+                onClick={
+                  disabled
+                    ? undefined
+                    : () => {
+                        props.formBloc.dispatch(new FormEvents.Submit());
+                      }
+                }
               />
             );
           }}

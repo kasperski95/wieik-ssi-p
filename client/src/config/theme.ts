@@ -8,8 +8,8 @@ const palette = {
   darkGray: '#212529',
 };
 
-export const { ThemeProvider, createUseStyle } = configureTheme({
-  theme: generateTheme({
+export const { ThemeProvider, createUseStyle, theme } = configureTheme({
+  theme: generateTheme('dark', {
     clickable: {
       main: palette.red,
       contrast: {

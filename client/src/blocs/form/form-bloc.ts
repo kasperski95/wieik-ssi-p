@@ -3,13 +3,13 @@ import * as FormEvents from './form-event';
 import * as FormStates from './form-state';
 import { FormBlocOptions } from './form-types';
 
-export class FormBloc<T extends { [key: string]: any }> extends Bloc<
+export class FormBloc<T extends { [key: string]: any }, R> extends Bloc<
   FormEvents.FormEvent,
   FormStates.FormState
 > {
   private data: T;
 
-  constructor(private initialData: T, private options?: FormBlocOptions<T>) {
+  constructor(private initialData: T, private options?: FormBlocOptions<T, R>) {
     super(new FormStates.Editable(initialData));
     this.data = initialData;
   }
@@ -24,7 +24,16 @@ export class FormBloc<T extends { [key: string]: any }> extends Bloc<
       yield new FormStates.Editable(this.data);
       if (this.options?.submitOnChange) this.dispatch(new FormEvents.Submit());
     } else if (event instanceof FormEvents.Submit) {
-      if (this.options?.onSubmit) this.options.onSubmit(this.data);
+      try {
+        yield new FormStates.Sending(this.data);
+        if (this.options?.onSubmit) {
+          const result = await this.options.onSubmit(this.data);
+          if (this.options?.onSuccess) this.options.onSuccess(result);
+        }
+        yield new FormStates.Editable(this.data);
+      } catch (err) {
+        yield new FormStates.ServerError(this.data, err?.message);
+      }
     }
   }
 }

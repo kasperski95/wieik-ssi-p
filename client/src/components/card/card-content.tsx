@@ -4,18 +4,23 @@ import React from 'react';
 import { Button } from '../buttons';
 
 export function CardContent(props: {
-  title: string;
+  title?: string;
   titleStyle?: React.CSSProperties;
   actions?: { label: string; onClick?: () => void }[];
   children: React.ReactChild | React.ReactChild[];
 }) {
   const { styles } = useStyle();
 
+  const shouldRenderTitle = !!props.title;
   const shouldRenderActions = !!props.actions;
 
   return (
     <div style={styles.container}>
-      <div style={combine([styles.title, props.titleStyle])}>{props.title}</div>
+      {shouldRenderTitle && (
+        <div style={combine([styles.title, props.titleStyle])}>
+          {props.title}
+        </div>
+      )}
       <div>{props.children}</div>
       {shouldRenderActions && (
         <React.Fragment>

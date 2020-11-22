@@ -1,7 +1,7 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
+import { useBackend } from '@src/config/create-backend-utils';
 import { createUseStyle } from '@src/config/theme';
 import { Brand } from '@src/models/brand';
-import { goFetch } from '@src/utils/fetch';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { PhotoCard } from '../photo-card';
@@ -10,9 +10,9 @@ import { Fetcher } from './index';
 export function BrandsFetcher() {
   const { styles } = useStyle();
   const history = useHistory();
-
+  const { fetch } = useBackend();
   const fetcherBloc = useFetcherBloc('brand', async () => {
-    return (await goFetch('brand')) as Brand[];
+    return (await fetch('brand')) as Brand[];
   });
 
   React.useEffect(() => {

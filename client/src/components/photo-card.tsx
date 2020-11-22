@@ -91,7 +91,7 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     position: 'absolute',
   },
   title: {
-    ...shared.typography.h1,
+    ...shared.typography.title,
     color: 'white',
     margin: dimensions.gutterMedium,
     marginBottom: dimensions.gutterLarge,

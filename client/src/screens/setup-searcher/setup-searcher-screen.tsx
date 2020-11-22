@@ -1,9 +1,14 @@
+import { UserEvents, useUserBloc } from '@src/blocs/user';
 import { BrandsFetcher } from '@src/components/fetcher/brands-fetcher';
 import { CarsFetcher } from '@src/components/fetcher/car-fetcher';
 import { SetupFetcher } from '@src/components/fetcher/setup-fetcher';
 import { TracksFetcher } from '@src/components/fetcher/tracks-fetcher';
 import { Screen } from '@src/components/screen';
 import { Stepper } from '@src/components/stepper';
+import {
+  isAuthorized as isUserAuthorized,
+  Privileges,
+} from '@src/config/authorization';
 import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -15,6 +20,10 @@ export function SetupSearcherScreen(props: {
 }) {
   const { styles } = useStyle();
   const history = useHistory();
+  const userBloc = useUserBloc();
+
+  const isAuthorized = (privilege: Privileges) =>
+    isUserAuthorized(userBloc.user, privilege);
 
   let activeIndex = 0;
   if (props.trackId) activeIndex = 1;
@@ -25,13 +34,25 @@ export function SetupSearcherScreen(props: {
     <Screen
       title='Setup Searcher'
       actions={[
-        { label: 'Register' },
-        {
-          label: 'Log In',
-          onClick: () => {
-            history.push('/login');
-          },
-        },
+        !!userBloc.user
+          ? {
+              label: `Log Out (${userBloc.user.username})`,
+              onClick: () => {
+                userBloc.dispatch(new UserEvents.Logout());
+              },
+            }
+          : undefined,
+        isAuthorized(Privileges.seeRegistration)
+          ? { label: 'Register' }
+          : undefined,
+        isAuthorized(Privileges.seeLogin)
+          ? {
+              label: 'Log In',
+              onClick: () => {
+                history.push('/login');
+              },
+            }
+          : undefined,
       ]}
     >
       <Stepper

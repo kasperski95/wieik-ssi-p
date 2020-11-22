@@ -2,7 +2,7 @@ import { FetcherBloc, FetcherStates } from '@src/blocs/fetcher';
 import { createUseStyle } from '@src/config/theme';
 import { BlocBuilder } from '@src/modules/react-bloc';
 import React from 'react';
-import { Card } from '../card';
+import { ErrorBox } from '../error-box';
 import { LoadingIndicator } from '../loading-indicator';
 
 export function Fetcher<S, T>(props: {
@@ -18,13 +18,7 @@ export function Fetcher<S, T>(props: {
         if (state instanceof FetcherStates.Success) {
           return props.builder(state.result);
         } else if (state instanceof FetcherStates.Failure) {
-          return (
-            <Card.Wrapper style={styles.errorWrapper}>
-              <Card.Content title='Error' titleStyle={styles.errorTitle}>
-                <div style={styles.errorMessage}>{state.message}</div>
-              </Card.Content>
-            </Card.Wrapper>
-          );
+          return <ErrorBox title='Error' message={state.message} />;
         } else if (state instanceof FetcherStates.Loading) {
           return (
             <div style={styles.loadingWrapper}>
@@ -42,16 +36,6 @@ export function Fetcher<S, T>(props: {
 }
 
 const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {},
-  errorWrapper: {
-    backgroundColor: theme.active.error.main,
-  },
-  errorTitle: {
-    color: theme.active.error.contrast.strong,
-  },
-  errorMessage: {
-    color: theme.active.error.contrast.weak,
-  },
   loadingWrapper: {
     display: 'flex',
     justifyContent: 'center',

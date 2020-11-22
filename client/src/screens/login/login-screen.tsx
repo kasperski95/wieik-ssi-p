@@ -1,16 +1,33 @@
 import { useFormBloc } from '@src/blocs/form';
+import { UserEvents, useUserBloc } from '@src/blocs/user';
 import { Form, FormField } from '@src/components/form';
 import { Screen } from '@src/components/screen';
+import { useBackend } from '@src/config/create-backend-utils';
 import { createUseStyle } from '@src/config/theme';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 export function LoginScreen() {
   const { styles } = useStyle();
-
-  const formBloc = useFormBloc('login', {
-    email: '',
-    password: '',
-  });
+  const history = useHistory();
+  const userBloc = useUserBloc();
+  const { send } = useBackend();
+  const formBloc = useFormBloc(
+    'login',
+    {
+      email: 'activeUser@m.com',
+      password: 'foobar',
+    },
+    {
+      onSubmit: async (data) => {
+        return send('auth', data);
+      },
+      onSuccess: (jwt: string) => {
+        userBloc.dispatch(new UserEvents.Change(jwt));
+        history.push('/');
+      },
+    }
+  );
 
   return (
     <Screen style={styles.container} title='Log In' showGoBack={true}>

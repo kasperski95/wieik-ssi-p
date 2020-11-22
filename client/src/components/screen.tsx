@@ -3,12 +3,17 @@ import { combine } from '@src/modules/css-in-jsx';
 import React from 'react';
 import { AppBar } from './app-bar';
 
+interface Action {
+  label: string;
+  onClick?: () => void;
+}
+
 export function Screen(props: {
   children: React.ReactNode;
   title: string;
   showGoBack?: boolean;
   style?: React.CSSProperties;
-  actions?: { label: string; onClick?: () => void }[];
+  actions?: (Action | undefined)[];
 }) {
   const { styles } = useStyle();
 
@@ -16,7 +21,7 @@ export function Screen(props: {
     <React.Fragment>
       <AppBar
         title={props.title}
-        actions={props.actions}
+        actions={props.actions?.filter((el) => !!el) as Action[]}
         showGoBack={props.showGoBack}
       />
       <div style={combine([styles.contentWrapper])}>

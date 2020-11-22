@@ -3,9 +3,9 @@ import { FormBloc, FormEvents } from '@src/blocs/form';
 import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 
-export function TextFormField<T>(props: {
+export function TextFormField<T, R>(props: {
   id: keyof T;
-  bloc: FormBloc<T>;
+  bloc: FormBloc<T, R>;
   label: string;
   obscure?: boolean;
 }) {

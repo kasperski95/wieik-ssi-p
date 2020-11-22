@@ -1,4 +1,5 @@
-export interface FormBlocOptions<T> {
-  onSubmit?: (formData: T) => void;
+export interface FormBlocOptions<T, R> {
+  onSubmit?: (formData: T) => Promise<R>;
+  onSuccess?: (result: R) => void;
   submitOnChange?: boolean;
 }

@@ -14,7 +14,6 @@ export class AuthService {
 
   async createJWT(email: string, password: string) {
     const user = await this.userCoreRepository.findByEmail(email);
-
     if (!user) throw new APIException(StatusCodes.NOT_FOUND);
 
     if (!bcrypt.compareSync(password, user.password))
@@ -24,6 +23,6 @@ export class AuthService {
   }
 
   async decodeJWT(token: string) {
-    return jwt.decode(token) as string;
+    return jwt.verify(token, 'foobar') as string;
   }
 }

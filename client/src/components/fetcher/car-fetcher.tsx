@@ -1,8 +1,8 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
+import { useBackend } from '@src/config/create-backend-utils';
 import { createUseStyle } from '@src/config/theme';
 import { Brand } from '@src/models/brand';
 import { Car } from '@src/models/car';
-import { goFetch } from '@src/utils/fetch';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { PhotoCard } from '../photo-card';
@@ -10,11 +10,12 @@ import { Fetcher } from './index';
 
 export function CarsFetcher(props: { brandId: string }) {
   const { styles } = useStyle();
+  const { fetch } = useBackend();
   const history = useHistory();
 
   const fetcherBloc = useFetcherBloc('car', async (brandId: string) => {
-    const brand: Brand = await goFetch(`brand/${brandId}`);
-    const cars: Car[] = await goFetch('car', { params: { b: brandId } });
+    const brand: Brand = await fetch(`brand/${brandId}`);
+    const cars: Car[] = await fetch('car', { params: { b: brandId } });
     cars.forEach((car) => {
       car.brand = brand;
     });

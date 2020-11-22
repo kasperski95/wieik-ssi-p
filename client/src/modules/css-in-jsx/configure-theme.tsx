@@ -16,6 +16,7 @@ export function configureTheme<T extends UnlimitedDepthStyle, D>(data: {
   const ThemeContext = React.createContext({} as StylingCore<T, D>);
 
   return {
+    theme: data.theme,
     ThemeProvider: (props: { children: React.ReactNode; theme?: Theme }) => {
       const theme = props.theme || data.theme;
       return (
