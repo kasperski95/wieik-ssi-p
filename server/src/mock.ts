@@ -64,7 +64,7 @@ import { Logger } from './utils/logger';
     }),
     _911: await modelRepository.createAndSave({
       brand: brands.porsche,
-      name: '911 GT3 R',
+      name: '991 GT3 R',
       year: 2019,
     }),
   };
