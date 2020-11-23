@@ -5,15 +5,16 @@ import React from 'react';
 export function Stepper(props: {
   steps: {
     label: string;
-    renderer?: () => React.ReactNode;
-    onClick?: () => void;
+    renderer?: (() => React.ReactNode) | React.ReactNode;
+    onClick?: (index: number) => void;
   }[];
   activeIndex: number;
   style?: React.CSSProperties;
 }) {
   const { styles } = useStyle();
-  const shouldRenderBody = !!props.steps[props.activeIndex].renderer;
-
+  const renderer = props.steps[props.activeIndex].renderer;
+  const shouldRenderBody = !!renderer;
+  const children = renderer instanceof Function ? renderer() : renderer;
   return (
     <React.Fragment>
       <div style={combine([styles.container, props.style])}>
@@ -24,7 +25,7 @@ export function Stepper(props: {
             <div
               key={step.label}
               style={styles.stepWrapper(isClickable)}
-              onClick={index < props.activeIndex ? step.onClick : undefined}
+              onClick={isClickable ? () => step.onClick!(index) : undefined}
             >
               <div style={styles.circle(isActive, isClickable)}>
                 {index + 1}
@@ -37,7 +38,7 @@ export function Stepper(props: {
         })}
       </div>
 
-      {shouldRenderBody && props.steps[props.activeIndex].renderer!()}
+      {shouldRenderBody && children}
     </React.Fragment>
   );
 }

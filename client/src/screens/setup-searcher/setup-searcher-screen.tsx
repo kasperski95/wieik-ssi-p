@@ -9,6 +9,7 @@ import {
   isAuthorized as isUserAuthorized,
   Privileges,
 } from '@src/config/authorization';
+import { routes } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -30,6 +31,10 @@ export function SetupSearcherScreen(props: {
   if (props.trackId && props.brandId) activeIndex = 2;
   if (props.trackId && props.carId) activeIndex = 3;
 
+  const handleStepperClick = (index: number) => {
+    return history.go(-activeIndex + index);
+  };
+
   return (
     <Screen
       title='Setup Searcher'
@@ -43,13 +48,18 @@ export function SetupSearcherScreen(props: {
             }
           : undefined,
         isAuthorized(Privileges.seeRegistration)
-          ? { label: 'Register' }
+          ? {
+              label: 'Register',
+              onClick: () => {
+                history.push(routes.register);
+              },
+            }
           : undefined,
         isAuthorized(Privileges.seeLogin)
           ? {
               label: 'Log In',
               onClick: () => {
-                history.push('/login');
+                history.push(routes.login);
               },
             }
           : undefined,
@@ -61,40 +71,24 @@ export function SetupSearcherScreen(props: {
         steps={[
           {
             label: 'Choose Track',
-            renderer: () => <TracksFetcher />,
-            onClick: () => {
-              for (let i = 0; i < activeIndex; ++i) {
-                history.goBack();
-              }
-            },
+            onClick: handleStepperClick,
+            renderer: <TracksFetcher />,
           },
           {
             label: 'Choose Brand',
-            renderer: () => <BrandsFetcher />,
-            onClick: () => {
-              for (let i = 1; i < activeIndex; ++i) {
-                history.goBack();
-              }
-            },
+            onClick: handleStepperClick,
+            renderer: <BrandsFetcher />,
           },
           {
             label: 'Choose Car',
-            onClick: () => {
-              for (let i = 2; i < activeIndex; ++i) {
-                history.goBack();
-              }
-            },
-            renderer: () => {
-              return <CarsFetcher brandId={props.brandId!} />;
-            },
+            onClick: handleStepperClick,
+            renderer: <CarsFetcher brandId={props.brandId!} />,
           },
           {
             label: 'Choose Setup',
-            renderer: () => {
-              return (
-                <SetupFetcher trackId={props.trackId!} carId={props.carId!} />
-              );
-            },
+            renderer: (
+              <SetupFetcher trackId={props.trackId!} carId={props.carId!} />
+            ),
           },
         ]}
       />
@@ -107,17 +101,3 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     marginBottom: dimensions.gutterMedium,
   },
 }));
-
-/* <Form.Wrapper formBloc={formBloc}>
-<Form.Builder
-  formBloc={formBloc}
-  builder={(formData, createProps) => {
-    return (
-      <React.Fragment>
-        <FormField.Text label='test' {...createProps('foo')} />
-        <FormField.Text label='test' {...createProps('foo')} />
-      </React.Fragment>
-    );
-  }}
-/>
-</Form.Wrapper> */

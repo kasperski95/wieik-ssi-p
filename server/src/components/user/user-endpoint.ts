@@ -24,6 +24,16 @@ export class UserEndpoint extends AbstractEndpoint<UserRoles> {
       { routeSuffix: '/:id' }
     );
 
+    this.post(async (req, res) => {
+      const user = await this.userRepository.createAndSave({
+        email: req.body.email,
+        password: req.body.password,
+        username: req.body.username,
+        role: UserRoles.user,
+      });
+      res.send(user);
+    });
+
     this.get(
       async (req, res) => {
         const users = await this.userRepository.find();

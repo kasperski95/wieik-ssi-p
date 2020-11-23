@@ -7,6 +7,7 @@ import {
   Privileges,
 } from './config/authorization';
 import { LoginScreen } from './screens/login/login-screen';
+import { RegistrationScreen } from './screens/registration/registration-screen';
 import { SetupSearcherScreen } from './screens/setup-searcher/setup-searcher-screen';
 
 export function Router() {
@@ -23,6 +24,15 @@ export function Router() {
             path='/login'
             render={() => {
               return <LoginScreen />;
+            }}
+          />
+        )}
+        {isAuthorized(Privileges.seeRegistration) && (
+          <Route
+            exact
+            path='/register'
+            render={() => {
+              return <RegistrationScreen />;
             }}
           />
         )}

@@ -1,5 +1,7 @@
 import { hash } from 'bcrypt';
+import { StatusCodes } from 'http-status-codes';
 import { EntityRepository } from 'typeorm';
+import { APIException } from '../../abstractions/exception';
 import { AbstractRepository } from '../../abstractions/repository';
 import { UserCoreRepository } from '../auth';
 import { UserModel } from './user-model';
@@ -22,6 +24,9 @@ export class UserRepository
     user.password = await hash(data.password, 10);
     user.role = data.role;
     user.status = data.status || UserStatus.active;
+
+    if (await this.findByEmail(data.email))
+      throw new APIException(StatusCodes.UNPROCESSABLE_ENTITY);
 
     return this.save(user);
   }
