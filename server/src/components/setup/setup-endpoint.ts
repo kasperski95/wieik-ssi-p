@@ -1,4 +1,7 @@
+import fs from 'fs';
 import { StatusCodes } from 'http-status-codes';
+import path from 'path';
+import { v4 as uuid } from 'uuid';
 import { AbstractEndpoint } from '../../abstractions/endpoint';
 import { APIException } from '../../abstractions/exception';
 import { UserRoles } from '../user';
@@ -21,5 +24,21 @@ export class SetupEndpoint extends AbstractEndpoint<UserRoles> {
 
       res.send(results);
     });
+
+    this.post(
+      async (req, res) => {
+        console.log(req.body);
+        console.log(req.files);
+
+        const fileName = uuid();
+        fs.writeFileSync(
+          path.join(__dirname, '../../../public/setups', fileName),
+          req.files.file.data
+        );
+
+        res.status(200).send();
+      }
+      // { authorize: [UserRoles.user, UserRoles.admin] }
+    );
   }
 }

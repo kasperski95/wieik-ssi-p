@@ -6,8 +6,10 @@ import {
   isAuthorized as isUserAuthorized,
   Privileges,
 } from './config/authorization';
+import { routes } from './config/routes';
 import { LoginScreen } from './screens/login/login-screen';
 import { RegistrationScreen } from './screens/registration/registration-screen';
+import { SetupFormScreen } from './screens/setup-form/setup-form-screen';
 import { SetupSearcherScreen } from './screens/setup-searcher/setup-searcher-screen';
 
 export function Router() {
@@ -21,7 +23,7 @@ export function Router() {
         {isAuthorized(Privileges.seeLogin) && (
           <Route
             exact
-            path='/login'
+            path={routes.login}
             render={() => {
               return <LoginScreen />;
             }}
@@ -30,14 +32,23 @@ export function Router() {
         {isAuthorized(Privileges.seeRegistration) && (
           <Route
             exact
-            path='/register'
+            path={routes.register}
             render={() => {
               return <RegistrationScreen />;
             }}
           />
         )}
+        {isAuthorized(Privileges.uploadSetup) && (
+          <Route
+            exact
+            path={routes.uploadSetup}
+            render={() => {
+              return <SetupFormScreen />;
+            }}
+          />
+        )}
         <Route
-          path='/'
+          path={routes.home}
           render={({ location }) => {
             const queryVariables = new URLSearchParams(location.search);
             return (

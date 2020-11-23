@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import fileUpload from 'express-fileupload';
 import path from 'path';
 import { container } from 'tsyringe';
 import { Connection } from 'typeorm';
@@ -29,6 +30,7 @@ export class App {
       '/public/setups',
       express.static(path.join(__dirname, '../public/setups'))
     );
+    app.use(fileUpload());
 
     [
       new AuthEndpoint('auth', container.resolve(DI.userRepository)),

@@ -1,6 +1,8 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
+import { useUserBloc } from '@src/blocs/user';
+import { isAuthorized, Privileges } from '@src/config/authorization';
 import { useCrud } from '@src/config/create-crud';
-import { endpoints, setups as setupsURL } from '@src/config/routes';
+import { endpoints, routes, setups as setupsURL } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import { Brand } from '@src/models/brand';
 import { Car } from '@src/models/car';
@@ -10,6 +12,7 @@ import { humanizeTime } from '@src/utils/humanize-time';
 import Case from 'case';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Button } from '../buttons';
 import { Card } from '../card';
 import { Fetcher } from './index';
 
@@ -17,6 +20,7 @@ export function SetupFetcher(props: { trackId: string; carId: string }) {
   const { styles } = useStyle();
   const { read } = useCrud();
   const history = useHistory();
+  const userBloc = useUserBloc();
 
   const fetcherBloc = useFetcherBloc(
     'setup',
@@ -54,45 +58,61 @@ export function SetupFetcher(props: { trackId: string; carId: string }) {
   }, [props.trackId, props.carId]);
 
   return (
-    <Fetcher
-      fetcherBloc={fetcherBloc}
-      builder={(result) => {
-        return (
-          <React.Fragment>
-            {result.map((setup) => {
-              const title = `${Case.kebab(setup.track!.name)}_${Case.kebab(
-                setup.car!.brand!.name
-              )}_${Case.kebab(setup.car!.name)}_${Case.kebab(
-                setup.user!.username
-              )}.setup`;
-              return (
-                <Card.Wrapper key={setup.id}>
-                  <Card.Content
-                    title={title}
-                    actions={[
-                      {
-                        label: 'Download',
-                        onClick: () => {
-                          window.open(`${setupsURL}/${setup.filename}`);
+    <React.Fragment>
+      <div style={styles.buttonWrapper}>
+        {isAuthorized(userBloc.user, Privileges.uploadSetup) && (
+          <Button.Submit
+            label='Upload'
+            onClick={() => {
+              history.push(routes.uploadSetup);
+            }}
+          />
+        )}
+      </div>
+      <Fetcher
+        fetcherBloc={fetcherBloc}
+        builder={(result) => {
+          return (
+            <React.Fragment>
+              {result.map((setup) => {
+                const title = `${Case.kebab(setup.track!.name)}_${Case.kebab(
+                  setup.car!.brand!.name
+                )}_${Case.kebab(setup.car!.name)}_${Case.kebab(
+                  setup.user!.username
+                )}.setup`;
+                return (
+                  <Card.Wrapper key={setup.id}>
+                    <Card.Content
+                      title={title}
+                      actions={[
+                        {
+                          label: 'Download',
+                          onClick: () => {
+                            window.open(`${setupsURL}/${setup.filename}`);
+                          },
                         },
-                      },
-                    ]}
-                  >
-                    <div>
-                      Default Setup Time: {humanizeTime(setup.timeBase)}
-                    </div>
-                    <div>This Setup Time: {humanizeTime(setup.time)}</div>
-                  </Card.Content>
-                </Card.Wrapper>
-              );
-            })}
-          </React.Fragment>
-        );
-      }}
-    />
+                      ]}
+                    >
+                      <div>
+                        Default Setup Time: {humanizeTime(setup.timeBase)}
+                      </div>
+                      <div>This Setup Time: {humanizeTime(setup.time)}</div>
+                    </Card.Content>
+                  </Card.Wrapper>
+                );
+              })}
+            </React.Fragment>
+          );
+        }}
+      />
+    </React.Fragment>
   );
 }
 
 const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {},
+  buttonWrapper: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginBottom: dimensions.gutterMedium,
+  },
 }));

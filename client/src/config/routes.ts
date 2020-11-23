@@ -2,6 +2,7 @@ export const routes = {
   home: '/',
   login: '/login',
   register: '/register',
+  uploadSetup: '/upload-setup',
 } as const;
 
 export const endpoints = {
