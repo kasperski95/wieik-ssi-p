@@ -2,8 +2,8 @@ import { useFormBloc } from '@src/blocs/form';
 import { UserEvents, useUserBloc } from '@src/blocs/user';
 import { Form, FormField } from '@src/components/form';
 import { Screen } from '@src/components/screen';
-import { useBackend } from '@src/config/create-backend-utils';
-import { routes } from '@src/config/routes';
+import { useCrud } from '@src/config/create-crud';
+import { endpoints, routes } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -12,7 +12,7 @@ export function LoginScreen() {
   const { styles } = useStyle();
   const history = useHistory();
   const userBloc = useUserBloc();
-  const { send } = useBackend();
+  const { create } = useCrud();
   const formBloc = useFormBloc(
     'login',
     {
@@ -21,7 +21,7 @@ export function LoginScreen() {
     },
     {
       onSubmit: async (data) => {
-        return send('auth', data);
+        return create(endpoints.auth, data);
       },
       onSuccess: (jwt: string) => {
         userBloc.dispatch(new UserEvents.Change(jwt));

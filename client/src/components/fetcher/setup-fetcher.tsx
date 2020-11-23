@@ -1,5 +1,6 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
-import { useBackend } from '@src/config/create-backend-utils';
+import { useCrud } from '@src/config/create-crud';
+import { endpoints } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import { Brand } from '@src/models/brand';
 import { Car } from '@src/models/car';
@@ -14,22 +15,30 @@ import { Fetcher } from './index';
 
 export function SetupFetcher(props: { trackId: string; carId: string }) {
   const { styles } = useStyle();
-  const { fetch } = useBackend();
+  const { read } = useCrud();
   const history = useHistory();
 
   const fetcherBloc = useFetcherBloc(
     'setup',
     async (variables: { trackId: string; carId: string }) => {
-      const track: Track = await fetch(`track/${variables.trackId}`);
-      const car: Car = await fetch(`car/${variables.carId}`);
-      const brand: Brand = await fetch(`brand/${car.brandId}`);
+      const track: Track = await read(endpoints.track, {
+        query: { suffix: '/:id', data: { id: variables.trackId } },
+      });
+      const car: Car = await read(endpoints.car, {
+        query: { suffix: '/:id', data: { id: variables.carId } },
+      });
+      const brand: Brand = await read(endpoints.brand, {
+        query: { suffix: '/:id', data: { id: car.brandId } },
+      });
       car.brand = brand;
-      const setups: Setup[] = await fetch(`setup`, {
+      const setups: Setup[] = await read(`setup`, {
         params: { c: variables.carId, t: variables.trackId },
       });
 
       for await (const setup of setups) {
-        setup.user = await fetch(`user/${setup.userId}`);
+        setup.user = await read(endpoints.user, {
+          query: { suffix: '/:id', data: { id: setup.userId } },
+        });
         setup.car = car;
         setup.track = track;
       }

@@ -1,5 +1,6 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
-import { useBackend } from '@src/config/create-backend-utils';
+import { useCrud } from '@src/config/create-crud';
+import { endpoints } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import { Brand } from '@src/models/brand';
 import { Car } from '@src/models/car';
@@ -10,12 +11,14 @@ import { Fetcher } from './index';
 
 export function CarsFetcher(props: { brandId: string }) {
   const { styles } = useStyle();
-  const { fetch } = useBackend();
+  const { read } = useCrud();
   const history = useHistory();
 
   const fetcherBloc = useFetcherBloc('car', async (brandId: string) => {
-    const brand: Brand = await fetch(`brand/${brandId}`);
-    const cars: Car[] = await fetch('car', { params: { b: brandId } });
+    const brand: Brand = await read(endpoints.brand, {
+      query: { suffix: '/:id', data: { id: brandId } },
+    });
+    const cars: Car[] = await read(endpoints.car, { params: { b: brandId } });
     cars.forEach((car) => {
       car.brand = brand;
     });

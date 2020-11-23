@@ -1,5 +1,6 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
-import { useBackend } from '@src/config/create-backend-utils';
+import { useCrud } from '@src/config/create-crud';
+import { endpoints, routes } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import { Brand } from '@src/models/brand';
 import React from 'react';
@@ -10,9 +11,9 @@ import { Fetcher } from './index';
 export function BrandsFetcher() {
   const { styles } = useStyle();
   const history = useHistory();
-  const { fetch } = useBackend();
+  const { read } = useCrud();
   const fetcherBloc = useFetcherBloc('brand', async () => {
-    return (await fetch('brand')) as Brand[];
+    return (await read(endpoints.brand)) as Brand[];
   });
 
   React.useEffect(() => {
@@ -34,9 +35,7 @@ export function BrandsFetcher() {
                   key={brand.id}
                   onClick={() => {
                     history.push(
-                      history.location.pathname +
-                        history.location.search +
-                        `&b=${brand.id}`
+                      routes.home + history.location.search + `&b=${brand.id}`
                     );
                   }}
                   imageFileName={brand.name}

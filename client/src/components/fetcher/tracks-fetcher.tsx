@@ -1,5 +1,6 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
-import { useBackend } from '@src/config/create-backend-utils';
+import { useCrud } from '@src/config/create-crud';
+import { endpoints, routes } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import { Track } from '@src/models/track';
 import React from 'react';
@@ -9,11 +10,11 @@ import { Fetcher } from './index';
 
 export function TracksFetcher() {
   const { styles } = useStyle();
-  const { fetch } = useBackend();
+  const { read } = useCrud();
   const history = useHistory();
 
   const fetcherBloc = useFetcherBloc('track', async () => {
-    return (await fetch('track')) as Track[];
+    return (await read(endpoints.track)) as Track[];
   });
 
   React.useEffect(() => {
@@ -37,7 +38,7 @@ export function TracksFetcher() {
               return (
                 <PhotoCard
                   key={track.id}
-                  onClick={() => history.push(`/?t=${track.id}`)}
+                  onClick={() => history.push(`${routes.home}?t=${track.id}`)}
                   title={track.name}
                   imageFileName={track.name}
                   positionY={positionY}

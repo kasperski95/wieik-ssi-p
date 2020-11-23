@@ -1,8 +1,8 @@
 import { useFormBloc } from '@src/blocs/form';
 import { Form, FormField } from '@src/components/form';
 import { Screen } from '@src/components/screen';
-import { useBackend } from '@src/config/create-backend-utils';
-import { routes } from '@src/config/routes';
+import { useCrud } from '@src/config/create-crud';
+import { endpoints, routes } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom';
 export function RegistrationScreen() {
   const { styles } = useStyle();
   const history = useHistory();
-  const { send } = useBackend();
+  const { create } = useCrud();
   const formBloc = useFormBloc(
     'register',
     {
@@ -20,7 +20,7 @@ export function RegistrationScreen() {
     },
     {
       onSubmit: async (data) => {
-        return send('user', data);
+        return create(endpoints.user, data);
       },
       onSuccess: () => {
         history.push(routes.login);
