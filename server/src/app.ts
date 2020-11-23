@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express';
+import path from 'path';
 import { container } from 'tsyringe';
 import { Connection } from 'typeorm';
 import { AuthEndpoint } from './components/auth';
@@ -24,6 +25,10 @@ export class App {
     const app = express();
     app.use(express.json());
     app.use(cors());
+    app.use(
+      '/public/setups',
+      express.static(path.join(__dirname, '../public/setups'))
+    );
 
     [
       new AuthEndpoint('auth', container.resolve(DI.userRepository)),

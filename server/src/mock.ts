@@ -76,7 +76,7 @@ import { Logger } from './utils/logger';
 
   const setups = {
     setup1: await setupRepository.createAndSave({
-      filename: 'a1b2c2.json',
+      filename: 'a1b2c3.setup',
       downloads: 0,
       time: 123.05,
       timeBase: 125,
@@ -86,7 +86,7 @@ import { Logger } from './utils/logger';
       user: users.activeUser,
     }),
     setup2: await setupRepository.createAndSave({
-      filename: 'a1b2c2.json',
+      filename: 'a1b2c3.setup',
       downloads: 0,
       time: 123.05,
       timeBase: 124,

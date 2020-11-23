@@ -12,3 +12,5 @@ export const endpoints = {
   user: 'user',
   setup: 'setup',
 } as const;
+
+export const setups = process.env.REACT_APP_SETUPS;

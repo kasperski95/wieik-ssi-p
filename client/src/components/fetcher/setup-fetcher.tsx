@@ -1,6 +1,6 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
 import { useCrud } from '@src/config/create-crud';
-import { endpoints } from '@src/config/routes';
+import { endpoints, setups as setupsURL } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import { Brand } from '@src/models/brand';
 import { Car } from '@src/models/car';
@@ -67,7 +67,17 @@ export function SetupFetcher(props: { trackId: string; carId: string }) {
               )}.setup`;
               return (
                 <Card.Wrapper key={setup.id}>
-                  <Card.Content title={title} actions={[{ label: 'Download' }]}>
+                  <Card.Content
+                    title={title}
+                    actions={[
+                      {
+                        label: 'Download',
+                        onClick: () => {
+                          window.open(`${setupsURL}/${setup.filename}`);
+                        },
+                      },
+                    ]}
+                  >
                     <div>
                       Default Setup Time: {humanizeTime(setup.timeBase)}
                     </div>
