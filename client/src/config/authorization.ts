@@ -5,21 +5,23 @@ export enum Privileges {
   seeRegistration,
   seeSetupSearcher,
   uploadSetup,
+  seeMySetups,
 }
 
 export function isAuthorized(
   user: User | undefined | null,
   privilege: Privileges
 ) {
+  const userPrivileges = [
+    Privileges.seeSetupSearcher,
+    Privileges.uploadSetup,
+    Privileges.seeMySetups,
+  ];
   switch (user?.role) {
     case UserRoles.user:
-      return [Privileges.seeSetupSearcher, Privileges.uploadSetup].includes(
-        privilege
-      );
+      return userPrivileges.includes(privilege);
     case UserRoles.admin:
-      return [Privileges.seeSetupSearcher, Privileges.uploadSetup].includes(
-        privilege
-      );
+      return [...userPrivileges].includes(privilege);
     default:
       //guest
       return [Privileges.seeLogin, Privileges.seeRegistration].includes(

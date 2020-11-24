@@ -8,6 +8,7 @@ import {
 } from './config/authorization';
 import { routes } from './config/routes';
 import { LoginScreen } from './screens/login/login-screen';
+import { MySetupsScreen } from './screens/my-setups/my-setups-screen';
 import { RegistrationScreen } from './screens/registration/registration-screen';
 import { SetupFormScreen } from './screens/setup-form/setup-form-screen';
 import { SetupSearcherScreen } from './screens/setup-searcher/setup-searcher-screen';
@@ -53,6 +54,15 @@ export function Router() {
               }
 
               return <SetupFormScreen trackId={trackId!} carId={carId!} />;
+            }}
+          />
+        )}
+        {isAuthorized(Privileges.seeMySetups) && (
+          <Route
+            exact
+            path={routes.mySetups}
+            render={() => {
+              return <MySetupsScreen />;
             }}
           />
         )}

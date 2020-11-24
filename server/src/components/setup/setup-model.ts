@@ -37,14 +37,14 @@ export class SetupModel {
   @Column()
   userId: string;
 
-  @ManyToOne((type) => TrackModel, (track) => track.setups)
+  @ManyToOne((type) => TrackModel, (track) => track.setups, { eager: true })
   track: TrackModel;
 
   @RelationId((self: SetupModel) => self.track)
   @Column()
   trackId: string;
 
-  @ManyToOne((type) => CarModel, (model) => model.setups)
+  @ManyToOne((type) => CarModel, (model) => model.setups, { eager: true })
   car: CarModel;
 
   @RelationId((self: SetupModel) => self.car)

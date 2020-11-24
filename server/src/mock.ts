@@ -81,9 +81,9 @@ import { Logger } from './utils/logger';
       time: 123.05,
       timeBase: 125,
       weather: SetupWeather.dry,
-      model: models._911,
-      track: tracks.nurburgring,
-      user: users.activeUser,
+      modelId: models._911.id,
+      trackId: tracks.nurburgring.id,
+      userId: users.activeUser.id,
     }),
     setup2: await setupRepository.createAndSave({
       filename: 'a1b2c3.setup',
@@ -91,9 +91,9 @@ import { Logger } from './utils/logger';
       time: 123.05,
       timeBase: 124,
       weather: SetupWeather.wet,
-      model: models.r8,
-      track: tracks.nurburgring,
-      user: users.activeUser,
+      modelId: models.r8.id,
+      trackId: tracks.nurburgring.id,
+      userId: users.activeUser.id,
     }),
   };
 })();

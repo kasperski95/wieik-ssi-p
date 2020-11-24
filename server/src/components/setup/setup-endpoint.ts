@@ -17,10 +17,12 @@ export class SetupEndpoint extends AbstractEndpoint<UserRoles> {
     this.get(async (req, res) => {
       const carId = req.query.c;
       const trackId = req.query.t;
-      if (!carId || !trackId) throw new APIException(StatusCodes.BAD_REQUEST);
+      const userId = req.query.u;
+      console.log('userId', userId);
+      const where = userId ? { userId } : { trackId, carId };
 
       const results = await this.setupRepository.find({
-        where: { carId, trackId },
+        where,
       });
 
       res.send(results);

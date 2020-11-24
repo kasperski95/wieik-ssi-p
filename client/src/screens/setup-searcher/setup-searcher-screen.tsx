@@ -39,6 +39,14 @@ export function SetupSearcherScreen(props: {
     <Screen
       title='Setup Searcher'
       actions={[
+        isAuthorized(Privileges.seeMySetups)
+          ? {
+              label: 'My Setups',
+              onClick: () => {
+                history.push(routes.mySetups);
+              },
+            }
+          : undefined,
         !!userBloc.user
           ? {
               label: `Log Out (${userBloc.user.username})`,

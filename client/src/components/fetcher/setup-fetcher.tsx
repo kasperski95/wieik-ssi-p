@@ -65,7 +65,7 @@ export function SetupFetcher(props: { trackId: string; carId: string }) {
             label='Upload'
             onClick={() => {
               history.push(
-                `${routes.uploadSetup}/?t=${props.trackId}&c=${props.carId}`
+                `${routes.uploadSetup}?t=${props.trackId}&c=${props.carId}`
               );
             }}
           />
