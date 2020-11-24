@@ -1,4 +1,4 @@
-import { User, UserRoles } from '@src/models/user';
+import { User, UserRoles, UserStatus } from '@src/models/user';
 import { Bloc } from '@src/modules/react-bloc';
 import axios from 'axios';
 import * as UserEvents from './user-event';
@@ -30,15 +30,19 @@ export class UserBloc extends Bloc<UserEvents.UserEvent, UserStates.UserState> {
             })
           ).data;
 
-          switch (this.user!.role) {
-            case UserRoles.user:
-              yield new UserStates.User(this.user!, this.jwt);
-              break;
-            case UserRoles.admin:
-              yield new UserStates.Admin(this.user!, this.jwt);
-              break;
-            default:
-              throw new Error('Unhandled role');
+          if (this.user!.status === UserStatus.blocked) {
+            yield new UserStates.Banned();
+          } else {
+            switch (this.user!.role) {
+              case UserRoles.user:
+                yield new UserStates.User(this.user!, this.jwt);
+                break;
+              case UserRoles.admin:
+                yield new UserStates.Admin(this.user!, this.jwt);
+                break;
+              default:
+                throw new Error('Unhandled role');
+            }
           }
         } catch (err) {
           yield new UserStates.Guest();

@@ -73,10 +73,12 @@ export class SetupEndpoint extends AbstractEndpoint<UserRoles> {
           throw new APIException(StatusCodes.UNAUTHORIZED);
 
         await this.setupRepository.delete(id);
-        fs.rmSync(
-          path.join(__dirname, '../../../public/setups', setup.filename)
-        );
         res.sendStatus(StatusCodes.ACCEPTED);
+        try {
+          fs.rmSync(
+            path.join(__dirname, '../../../public/setups', setup.filename)
+          );
+        } catch (err) {}
       },
       { authorize: [UserRoles.user, UserRoles.admin], routeSuffix: '/:id' }
     );

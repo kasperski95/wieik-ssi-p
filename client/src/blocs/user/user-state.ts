@@ -7,6 +7,8 @@ export class Identifying extends UserState {}
 
 export class Guest extends UserState {}
 
+export class Banned extends UserState {}
+
 export class Authenticated extends UserState {
   constructor(public user: UserModel, public jwt: string) {
     super();

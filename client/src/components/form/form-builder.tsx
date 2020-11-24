@@ -5,6 +5,7 @@ import { ErrorBox } from '../error-box';
 
 interface SharedFormFieldProps<T, R> {
   id: keyof T;
+  key: keyof T;
   bloc: FormBloc<T, R>;
   value: any;
 }
@@ -26,6 +27,7 @@ export function FormBuilder<T, R>(props: {
             state.data,
             (id: keyof T) => ({
               id,
+              key: id,
               value: props.formBloc.getValue(id),
               bloc: props.formBloc,
             }),
@@ -39,6 +41,7 @@ export function FormBuilder<T, R>(props: {
                 state.data,
                 (id: keyof T) => ({
                   id,
+                  key: id,
                   value: props.formBloc.getValue(id),
                   bloc: props.formBloc,
                 }),
@@ -51,6 +54,7 @@ export function FormBuilder<T, R>(props: {
             state.data,
             (id: keyof T) => ({
               id,
+              key: id,
               value: props.formBloc.getValue(id),
               bloc: props.formBloc,
             }),
