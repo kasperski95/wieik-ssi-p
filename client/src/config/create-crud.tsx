@@ -21,24 +21,23 @@ export function createCrud(jwt?: string) {
   };
 }
 
+type Query = { suffix: string; data: { [key: string]: string | number } };
+
+interface Options {
+  params?: { [key: string]: string | number };
+  query?: Query;
+}
+
+function generateSuffix(query: Query) {
+  return Object.entries(query.data).reduce((acc, [key, value]) => {
+    return acc.replace(':' + key, value.toString());
+  }, query.suffix);
+}
+
 function _createCrud(jwt?: string) {
   return {
-    async read(
-      endpoint: Endpoint,
-      options?: {
-        params?: { [key: string]: string | number };
-        query?: { suffix: string; data: { [key: string]: string | number } };
-      }
-    ) {
-      let suffix = '';
-      if (options?.query) {
-        suffix = Object.entries(options.query.data).reduce(
-          (acc, [key, value]) => {
-            return acc.replace(':' + key, value.toString());
-          },
-          options.query.suffix
-        );
-      }
+    async read(endpoint: Endpoint, options?: Options) {
+      const suffix = options?.query ? generateSuffix(options.query) : '';
 
       const result = await axios.get(
         `${process.env.REACT_APP_API}/${endpoint}${suffix}`,
@@ -56,6 +55,20 @@ function _createCrud(jwt?: string) {
       const result = await axios.post(
         `${process.env.REACT_APP_API}/${endpoint}`,
         data,
+        {
+          headers: {
+            authorization: jwt ? `Bearer ${jwt}` : undefined,
+          },
+        }
+      );
+      return result.data;
+    },
+
+    async remove(endpoint: Endpoint, options?: Options) {
+      const suffix = options?.query ? generateSuffix(options.query) : '';
+
+      const result = await axios.delete(
+        `${process.env.REACT_APP_API}/${endpoint}${suffix}`,
         {
           headers: {
             authorization: jwt ? `Bearer ${jwt}` : undefined,

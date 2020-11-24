@@ -18,7 +18,6 @@ export class SetupEndpoint extends AbstractEndpoint<UserRoles> {
       const carId = req.query.c;
       const trackId = req.query.t;
       const userId = req.query.u;
-      console.log('userId', userId);
       const where = userId ? { userId } : { trackId, carId };
 
       const results = await this.setupRepository.find({
@@ -62,6 +61,24 @@ export class SetupEndpoint extends AbstractEndpoint<UserRoles> {
         res.send(setup);
       },
       { authorize: [UserRoles.user, UserRoles.admin] }
+    );
+
+    this.delete(
+      async (req, res) => {
+        const id = req.params.id as string | undefined;
+
+        if (!id) throw new APIException(StatusCodes.BAD_REQUEST);
+        const setup = await this.setupRepository.findOne(id);
+        if (res.locals.userId != setup.userId)
+          throw new APIException(StatusCodes.UNAUTHORIZED);
+
+        await this.setupRepository.delete(id);
+        fs.rmSync(
+          path.join(__dirname, '../../../public/setups', setup.filename)
+        );
+        res.sendStatus(StatusCodes.ACCEPTED);
+      },
+      { authorize: [UserRoles.user, UserRoles.admin], routeSuffix: '/:id' }
     );
   }
 }

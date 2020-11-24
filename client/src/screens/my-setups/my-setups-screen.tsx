@@ -13,7 +13,7 @@ import React from 'react';
 
 export function MySetupsScreen() {
   const { styles } = useStyle();
-  const { read } = useCrud();
+  const { read, remove } = useCrud();
   const userBloc = useUserBloc();
   const user = userBloc.user!;
 
@@ -52,6 +52,18 @@ export function MySetupsScreen() {
                           label: 'Download',
                           onClick: () => {
                             window.open(`${setupsURL}/${setup.filename}`);
+                          },
+                        },
+                        {
+                          label: 'Delete',
+                          onClick: () => {
+                            remove(endpoints.setup, {
+                              query: { suffix: '/:id', data: { id: setup.id } },
+                            }).then(() => {
+                              fetcherBloc.dispatch(
+                                new FetcherEvents.Fetch({ userId: user.id })
+                              );
+                            });
                           },
                         },
                       ]}
