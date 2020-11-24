@@ -4,7 +4,9 @@ import { APIException } from './exception';
 
 type ExpressApp = ReturnType<typeof express>;
 type Handler = (req: Request, res: Response) => Promise<void>;
-type TokenToRoleMapper<T> = (token: string) => Promise<T | undefined>;
+type TokenToRoleMapper<T> = (
+  token: string
+) => Promise<{ role: T; userId: string } | undefined>;
 type EndpointMethod<T> = (
   handler: Handler,
   options?: { routeSuffix?: string; authorize?: T[] }
@@ -62,9 +64,11 @@ export abstract class AbstractEndpoint<T> {
       if (!this.mapTokenToRole)
         throw new Error('tokenToRoleMapper is undefined');
 
-      const token = req.headers.authorization?.replace('Bearer', '');
+      const token = req.headers.authorization?.replace('Bearer ', '');
+      const { role, userId } = await this.mapTokenToRole(token);
+      res.locals.userId = userId;
 
-      if (!roles.includes(await this.mapTokenToRole(token))) {
+      if (!roles.includes(role)) {
         res.statusCode = StatusCodes.UNAUTHORIZED;
         res.send(getReasonPhrase(StatusCodes.UNAUTHORIZED));
         return;

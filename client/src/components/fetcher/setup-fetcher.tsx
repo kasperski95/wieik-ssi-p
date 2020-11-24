@@ -64,7 +64,9 @@ export function SetupFetcher(props: { trackId: string; carId: string }) {
           <Button.Submit
             label='Upload'
             onClick={() => {
-              history.push(routes.uploadSetup);
+              history.push(
+                `${routes.uploadSetup}/?t=${props.trackId}&c=${props.carId}`
+              );
             }}
           />
         )}

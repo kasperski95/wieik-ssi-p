@@ -1,1 +1,3 @@
 node_modules/
+public/setups/
+!public/setups/a1b2c3.setup

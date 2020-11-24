@@ -55,7 +55,12 @@ function _createCrud(jwt?: string) {
     async create(endpoint: Endpoint, data?: any) {
       const result = await axios.post(
         `${process.env.REACT_APP_API}/${endpoint}`,
-        data
+        data,
+        {
+          headers: {
+            authorization: jwt ? `Bearer ${jwt}` : undefined,
+          },
+        }
       );
       return result.data;
     },

@@ -42,8 +42,17 @@ export function Router() {
           <Route
             exact
             path={routes.uploadSetup}
-            render={() => {
-              return <SetupFormScreen />;
+            render={({ location, history }) => {
+              const queryVariables = new URLSearchParams(location.search);
+              const trackId = queryVariables.get('t');
+              const carId = queryVariables.get('c');
+
+              if (!trackId || !carId) {
+                history.push(routes.home);
+                return null;
+              }
+
+              return <SetupFormScreen trackId={trackId!} carId={carId!} />;
             }}
           />
         )}

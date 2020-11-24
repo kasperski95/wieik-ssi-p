@@ -6,6 +6,7 @@ import { AbstractEndpoint } from '../../abstractions/endpoint';
 import { APIException } from '../../abstractions/exception';
 import { UserRoles } from '../user';
 import { SetupRepository } from './setup-repository';
+import { SetupWeather } from './setup-types';
 
 export class SetupEndpoint extends AbstractEndpoint<UserRoles> {
   constructor(route: string, private setupRepository: SetupRepository) {
@@ -27,18 +28,38 @@ export class SetupEndpoint extends AbstractEndpoint<UserRoles> {
 
     this.post(
       async (req, res) => {
-        console.log(req.body);
-        console.log(req.files);
+        const userId = res.locals.userId;
+        if (!userId) throw new APIException(StatusCodes.UNAUTHORIZED);
 
-        const fileName = uuid();
+        if (
+          !req.files?.setup ||
+          !req.body.time ||
+          !req.body.defaultTime ||
+          !req.body.trackId ||
+          !req.body.carId
+        )
+          throw new APIException(StatusCodes.BAD_REQUEST);
+
+        const filename = uuid();
         fs.writeFileSync(
-          path.join(__dirname, '../../../public/setups', fileName),
-          req.files.file.data
+          path.join(__dirname, '../../../public/setups', filename),
+          req.files.setup.data
         );
 
-        res.status(200).send();
-      }
-      // { authorize: [UserRoles.user, UserRoles.admin] }
+        const setup = await this.setupRepository.createAndSave({
+          weather: SetupWeather.dry,
+          filename,
+          time: req.body.time,
+          timeBase: req.body.defaultTime,
+          downloads: 0,
+          userId: userId,
+          trackId: req.body.trackId,
+          modelId: req.body.carId,
+        });
+
+        res.send(setup);
+      },
+      { authorize: [UserRoles.user, UserRoles.admin] }
     );
   }
 }

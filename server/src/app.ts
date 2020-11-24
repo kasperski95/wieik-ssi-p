@@ -77,11 +77,11 @@ export class App {
     const userRepository: UserRepository = container.resolve(DI.userRepository);
     const authService: AuthService = container.resolve(AuthService);
 
-    if (!token) return undefined;
+    if (!token) return { role: undefined, userId: undefined };
 
     const userId = await authService.decodeJWT(token);
     const user = await userRepository.findOne(userId);
 
-    return user?.role;
+    return { role: user?.role, userId };
   }
 }
