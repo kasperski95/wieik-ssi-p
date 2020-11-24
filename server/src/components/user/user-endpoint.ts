@@ -41,5 +41,18 @@ export class UserEndpoint extends AbstractEndpoint<UserRoles> {
       },
       { authorize: [UserRoles.admin] }
     );
+
+    this.put(
+      async (req, res) => {
+        const id = req.params.id;
+        if (!id) throw new APIException(StatusCodes.BAD_REQUEST);
+
+        const status = req.body.status;
+        const user = await this.userRepository.update(id, { status });
+
+        res.send(user);
+      },
+      { routeSuffix: '/:id', authorize: [UserRoles.admin] }
+    );
   }
 }

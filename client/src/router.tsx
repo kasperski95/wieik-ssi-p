@@ -12,6 +12,7 @@ import { MySetupsScreen } from './screens/my-setups/my-setups-screen';
 import { RegistrationScreen } from './screens/registration/registration-screen';
 import { SetupFormScreen } from './screens/setup-form/setup-form-screen';
 import { SetupSearcherScreen } from './screens/setup-searcher/setup-searcher-screen';
+import { UsersScreen } from './screens/users/users-screen';
 
 export function Router() {
   const userBloc = useUserBloc();
@@ -63,6 +64,15 @@ export function Router() {
             path={routes.mySetups}
             render={() => {
               return <MySetupsScreen />;
+            }}
+          />
+        )}
+        {isAuthorized(Privileges.seeUsers) && (
+          <Route
+            exact
+            path={routes.users}
+            render={() => {
+              return <UsersScreen />;
             }}
           />
         )}

@@ -60,6 +60,17 @@ export abstract class AbstractEndpoint<T> {
     return this.app;
   };
 
+  put: EndpointMethod<T> = (handler, options) => {
+    const route = this.getRoute() + (options?.routeSuffix || '');
+
+    if (options?.authorize) this.authorize(route, options.authorize);
+
+    this.app.put(route, async (req, res) => {
+      await this.handleExceptions(handler, [req, res]);
+    });
+    return this.app;
+  };
+
   setAPIVersion(version: string) {
     this.apiVersion = version;
     return this;

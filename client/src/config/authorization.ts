@@ -6,6 +6,7 @@ export enum Privileges {
   seeSetupSearcher,
   uploadSetup,
   seeMySetups,
+  seeUsers,
 }
 
 export function isAuthorized(
@@ -21,7 +22,7 @@ export function isAuthorized(
     case UserRoles.user:
       return userPrivileges.includes(privilege);
     case UserRoles.admin:
-      return [...userPrivileges].includes(privilege);
+      return [...userPrivileges, Privileges.seeUsers].includes(privilege);
     default:
       //guest
       return [Privileges.seeLogin, Privileges.seeRegistration].includes(

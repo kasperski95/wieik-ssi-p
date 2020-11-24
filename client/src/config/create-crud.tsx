@@ -64,6 +64,21 @@ function _createCrud(jwt?: string) {
       return result.data;
     },
 
+    async update(endpoint: Endpoint, data?: any, options?: Options) {
+      const suffix = options?.query ? generateSuffix(options.query) : '';
+
+      const result = await axios.put(
+        `${process.env.REACT_APP_API}/${endpoint}${suffix}`,
+        data,
+        {
+          headers: {
+            authorization: jwt ? `Bearer ${jwt}` : undefined,
+          },
+        }
+      );
+      return result.data;
+    },
+
     async remove(endpoint: Endpoint, options?: Options) {
       const suffix = options?.query ? generateSuffix(options.query) : '';
 

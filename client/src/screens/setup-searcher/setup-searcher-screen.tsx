@@ -39,6 +39,14 @@ export function SetupSearcherScreen(props: {
     <Screen
       title='Setup Searcher'
       actions={[
+        isAuthorized(Privileges.seeUsers)
+          ? {
+              label: 'Users',
+              onClick: () => {
+                history.push(routes.users);
+              },
+            }
+          : undefined,
         isAuthorized(Privileges.seeMySetups)
           ? {
               label: 'My Setups',
