@@ -7,11 +7,11 @@ import {
   Privileges,
 } from './config/authorization';
 import { routes } from './config/routes';
+import { Home } from './screens/home/home';
 import { LoginScreen } from './screens/login/login-screen';
 import { MySetupsScreen } from './screens/my-setups/my-setups-screen';
 import { RegistrationScreen } from './screens/registration/registration-screen';
 import { SetupFormScreen } from './screens/setup-form/setup-form-screen';
-import { SetupSearcherScreen } from './screens/setup-searcher/setup-searcher-screen';
 import { UsersScreen } from './screens/users/users-screen';
 
 export function Router() {
@@ -81,7 +81,7 @@ export function Router() {
           render={({ location }) => {
             const queryVariables = new URLSearchParams(location.search);
             return (
-              <SetupSearcherScreen
+              <Home
                 trackId={queryVariables.get('t')}
                 brandId={queryVariables.get('b')}
                 carId={queryVariables.get('c')}

@@ -14,7 +14,7 @@ import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-export function SetupSearcherScreen(props: {
+export function Home(props: {
   trackId?: string | null;
   brandId?: string | null;
   carId?: string | null;
@@ -87,17 +87,20 @@ export function SetupSearcherScreen(props: {
         steps={[
           {
             label: 'Choose Track',
-            onClick: handleStepperClick,
+            onClick: () => history.push(routes.home),
             renderer: <TracksFetcher />,
           },
           {
             label: 'Choose Brand',
-            onClick: handleStepperClick,
+            onClick: () => history.push(`${routes.home}?t=${props.trackId}`),
             renderer: <BrandsFetcher />,
           },
           {
             label: 'Choose Car',
-            onClick: handleStepperClick,
+            onClick: () =>
+              history.push(
+                `${routes.home}?t=${props.trackId}&b=${props.brandId}`
+              ),
             renderer: <CarsFetcher brandId={props.brandId!} />,
           },
           {
