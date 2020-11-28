@@ -10,7 +10,7 @@ interface Action {
 }
 
 export interface AppBarProps {
-  title: string;
+  title: string | (() => React.ReactChild);
   showBackArrow?: boolean;
   onGoBack?: () => void;
   actions?: (Action | undefined)[];
@@ -34,7 +34,9 @@ export function AppBar(props: AppBarProps) {
               <ArrowBackIcon style={styles.arrow} />
             </Button.Icon>
           )}
-          <div style={styles.title}>{props.title}</div>
+          <div style={styles.title}>
+            {props.title instanceof Function ? props.title() : props.title}
+          </div>
         </div>
         {shouldRenderActions && (
           <React.Fragment>

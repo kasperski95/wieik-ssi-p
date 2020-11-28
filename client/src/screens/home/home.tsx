@@ -37,7 +37,14 @@ export function Home(props: {
 
   return (
     <Screen
-      title='Setup Searcher'
+      title={() => {
+        return (
+          <div style={styles.titleWrapper}>
+            <div style={styles.logo} />
+            Setup Searcher
+          </div>
+        );
+      }}
       actions={[
         isAuthorized(Privileges.seeUsers)
           ? {
@@ -118,5 +125,21 @@ export function Home(props: {
 const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
   stepper: {
     marginBottom: dimensions.gutterMedium,
+  },
+
+  logo: {
+    width: 48,
+    height: dimensions.appBarHeight,
+    marginRight: dimensions.gutterMedium,
+    backgroundImage: 'url(/assets/images/acc-logo.png)',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'left center',
+    display: 'inline-block',
+  },
+
+  titleWrapper: {
+    display: 'flex',
+    alignItems: 'center',
   },
 }));
