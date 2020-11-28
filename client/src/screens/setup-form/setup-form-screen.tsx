@@ -40,7 +40,11 @@ export function SetupFormScreen(props: { trackId: string; carId: string }) {
   return (
     <Screen
       title='Upload Setup'
-      showGoBack={true}
+      showBackArrow={true}
+      onGoBack={() => {
+        if (history.length > 0) history.goBack();
+        else history.push(routes.home);
+      }}
       actions={[
         isAuthorized(userBloc.user, Privileges.seeMySetups)
           ? {

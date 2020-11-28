@@ -4,11 +4,19 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from '../buttons';
 
-export function AppBar(props: {
+interface Action {
+  label: string;
+  onClick?: () => void;
+}
+
+export interface AppBarProps {
   title: string;
-  showGoBack?: boolean;
-  actions?: { label: string; onClick?: () => void }[];
-}) {
+  showBackArrow?: boolean;
+  onGoBack?: () => void;
+  actions?: (Action | undefined)[];
+}
+
+export function AppBar(props: AppBarProps) {
   const { styles } = useStyle();
   const history = useHistory();
 
@@ -18,12 +26,10 @@ export function AppBar(props: {
     <div style={styles.container}>
       <div style={styles.content(shouldRenderActions)}>
         <div style={styles.titleWrapper}>
-          {props.showGoBack && (
+          {props.showBackArrow && (
             <Button.Icon
               rippleStyle={styles.iconButton}
-              onClick={() => {
-                history.push('/');
-              }}
+              onClick={props.onGoBack}
             >
               <ArrowBackIcon style={styles.arrow} />
             </Button.Icon>
@@ -33,15 +39,17 @@ export function AppBar(props: {
         {shouldRenderActions && (
           <React.Fragment>
             <div style={styles.gutter} />
-            {props.actions!.map((action) => {
-              return (
-                <Button.Flat
-                  key={action.label}
-                  label={action.label}
-                  onClick={action.onClick}
-                />
-              );
-            })}
+            {props.actions
+              ?.filter((el) => !!el)
+              .map((action) => {
+                return (
+                  <Button.Flat
+                    key={action!.label}
+                    label={action!.label}
+                    onClick={action!.onClick}
+                  />
+                );
+              })}
           </React.Fragment>
         )}
       </div>

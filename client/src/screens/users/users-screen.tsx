@@ -20,7 +20,7 @@ export function UsersScreen() {
   });
 
   return (
-    <Screen showGoBack={true} title='Users'>
+    <Screen showBackArrow={true} title='Users'>
       <Fetcher
         fetcherBloc={fetcherBloc}
         builder={(users) => {

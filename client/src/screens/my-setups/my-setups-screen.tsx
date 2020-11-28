@@ -4,18 +4,20 @@ import { Card } from '@src/components/card';
 import { Fetcher } from '@src/components/fetcher';
 import { Screen } from '@src/components/screen';
 import { useCrud } from '@src/config/create-crud';
-import { endpoints, setups as setupsURL } from '@src/config/routes';
+import { endpoints, routes, setups as setupsURL } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
 import { Setup } from '@src/models/setup';
 import { humanizeTime } from '@src/utils/humanize-time';
 import Case from 'case';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 export function MySetupsScreen() {
   const { styles } = useStyle();
   const { read, remove } = useCrud();
   const userBloc = useUserBloc();
   const user = userBloc.user!;
+  const history = useHistory();
 
   const fetcherBloc = useFetcherBloc(
     'my-setups',
@@ -32,8 +34,12 @@ export function MySetupsScreen() {
 
   return (
     <Screen
-      showGoBack={true}
       title='My Setups'
+      showBackArrow={true}
+      onGoBack={() => {
+        if (history.length > 0) history.goBack();
+        else history.push(routes.home);
+      }}
       actions={[
         {
           label: `Log Out (${user.username})`,

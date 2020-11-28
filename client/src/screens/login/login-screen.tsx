@@ -35,7 +35,7 @@ export function LoginScreen() {
     <Screen
       style={styles.container}
       title='Log In'
-      showGoBack={true}
+      showBackArrow={true}
       actions={[
         isAuthorized(userBloc.user, Privileges.seeRegistration)
           ? {

@@ -35,7 +35,7 @@ export function RegistrationScreen() {
     <Screen
       style={styles.container}
       title='Register'
-      showGoBack={true}
+      showBackArrow={true}
       actions={[
         isAuthorized(userBloc.user, Privileges.seeLogin)
           ? {
