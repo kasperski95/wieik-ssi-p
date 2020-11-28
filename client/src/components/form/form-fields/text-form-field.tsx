@@ -25,6 +25,7 @@ export function TextFormField<T, R>(props: {
       style={styles.container}
       value={localValue}
       label={props.label}
+      autoComplete='none'
       type={props.obscure ? 'password' : undefined}
       onChange={(e) => {
         setLocalValue(e.target.value);

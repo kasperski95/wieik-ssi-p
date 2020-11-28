@@ -17,8 +17,8 @@ export function LoginScreen() {
   const formBloc = useFormBloc(
     'login',
     {
-      email: 'activeUser@m.com',
-      password: 'foobar',
+      email: '',
+      password: '',
     },
     {
       onSubmit: async (data) => {
