@@ -16,6 +16,10 @@ export abstract class Bloc<E extends BlocEvent, S extends BlocState> {
     this.behaviorSubject = new BehaviorSubject(initialState);
   }
 
+  public getState() {
+    return this.behaviorSubject.value;
+  }
+
   public subscribe(listener: (blocState: S) => void) {
     return this.behaviorSubject.subscribe((state) => {
       listener(state);

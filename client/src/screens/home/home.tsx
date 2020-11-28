@@ -11,6 +11,7 @@ import {
 } from '@src/config/authorization';
 import { routes } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
+import Color from 'color';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -127,15 +128,19 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     marginBottom: dimensions.gutterMedium,
   },
 
-  logo: {
-    width: 48,
-    height: dimensions.appBarHeight,
-    marginRight: dimensions.gutterMedium,
-    backgroundImage: 'url(/assets/images/acc-logo.png)',
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'left center',
-    display: 'inline-block',
+  get logo() {
+    return {
+      width: 48,
+      height: dimensions.appBarHeight,
+      marginRight: dimensions.gutterMedium,
+      backgroundImage: `url(/assets/images/acc-logo--${
+        Color(theme.active.contrast.light).isLight() ? 'light' : 'dark'
+      }.png)`,
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'left center',
+      display: 'inline-block',
+    };
   },
 
   titleWrapper: {

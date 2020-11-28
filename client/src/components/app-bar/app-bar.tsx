@@ -1,4 +1,7 @@
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import { ThemeEvents, useThemeBloc } from '@src/blocs/theme';
 import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -19,12 +22,13 @@ export interface AppBarProps {
 export function AppBar(props: AppBarProps) {
   const { styles } = useStyle();
   const history = useHistory();
+  const themeBloc = useThemeBloc();
 
   const shouldRenderActions = !!props.actions;
 
   return (
     <div style={styles.container}>
-      <div style={styles.content(shouldRenderActions)}>
+      <div style={styles.content}>
         <div style={styles.titleWrapper}>
           {props.showBackArrow && (
             <Button.Icon
@@ -54,6 +58,19 @@ export function AppBar(props: AppBarProps) {
               })}
           </React.Fragment>
         )}
+        <div style={styles.toggleThemeBtn}>
+          <Button.Icon
+            onClick={() => {
+              themeBloc.dispatch(new ThemeEvents.Toggle());
+            }}
+          >
+            {themeBloc.isDarkTheme() ? (
+              <Brightness7Icon />
+            ) : (
+              <Brightness4Icon />
+            )}
+          </Button.Icon>
+        </div>
       </div>
     </div>
   );
@@ -71,14 +88,13 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     position: 'relative',
     zIndex: dimensions.appBarIndex,
   },
-
-  content: (actionsExist) => ({
+  content: {
     width: '100%',
     maxWidth: dimensions.widthLimiter,
     marginLeft: dimensions.gutterMedium,
-    marginRight: actionsExist ? 0 : dimensions.gutterMedium,
+    marginRight: -dimensions.gutterMedium,
     display: 'flex',
-  }),
+  },
   titleWrapper: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -97,5 +113,9 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
   gutter: {
     flex: 1,
     minWidth: dimensions.gutterMedium,
+  },
+  toggleThemeBtn: {
+    display: 'flex',
+    alignItems: 'center',
   },
 }));

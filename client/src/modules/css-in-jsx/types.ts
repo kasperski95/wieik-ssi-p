@@ -35,6 +35,8 @@ export interface ThemeCore {
   accent: MediumTheme;
 }
 
+export type Themes = keyof ThemeCore;
+
 export interface Theme extends ThemeCore {
   active: MediumTheme;
 }
