@@ -5,20 +5,29 @@ import React from 'react';
 
 export function TextFormField<T, R>(props: {
   id: keyof T;
+  value: T[keyof T] | undefined;
   bloc: FormBloc<T, R>;
   label: string;
   obscure?: boolean;
+  mapValueToString?: (value: T[keyof T] | undefined) => string;
 }) {
-  const value = props.bloc.getValue(props.id);
   const { styles } = useStyle();
+
+  // fixes cursor being at the end all the time
+  const [localValue, setLocalValue] = React.useState(
+    props.mapValueToString
+      ? props.mapValueToString(props.value)
+      : ((props.value || '') as string)
+  );
 
   return (
     <TextField
       style={styles.container}
-      value={value}
+      value={localValue}
       label={props.label}
       type={props.obscure ? 'password' : undefined}
       onChange={(e) => {
+        setLocalValue(e.target.value);
         props.bloc.dispatch(new FormEvents.Update<T>(props.id, e.target.value));
       }}
     />

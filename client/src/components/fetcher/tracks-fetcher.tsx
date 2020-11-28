@@ -27,24 +27,31 @@ export function TracksFetcher() {
       builder={(result) => {
         return (
           <React.Fragment>
-            {result.map((track) => {
-              let positionY = undefined as undefined | number;
-              switch (track.name) {
-                case 'Nurburgring':
-                  positionY = 0.75;
-                  break;
-              }
+            {result
+              .sort((lhs, rhs) => {
+                return lhs.name.localeCompare(rhs.name);
+              })
+              .map((track) => {
+                let positionY = undefined as undefined | number;
+                switch (track.name) {
+                  case 'Monza':
+                    positionY = 0.45;
+                    break;
+                  case 'Nurburgring':
+                    positionY = 0.75;
+                    break;
+                }
 
-              return (
-                <PhotoCard
-                  key={track.id}
-                  onClick={() => history.push(`${routes.home}?t=${track.id}`)}
-                  title={track.name}
-                  imageFileName={track.name}
-                  positionY={positionY}
-                />
-              );
-            })}
+                return (
+                  <PhotoCard
+                    key={track.id}
+                    onClick={() => history.push(`${routes.home}?t=${track.id}`)}
+                    title={track.name}
+                    imageFileName={track.name}
+                    positionY={positionY}
+                  />
+                );
+              })}
           </React.Fragment>
         );
       }}

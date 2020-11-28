@@ -72,6 +72,11 @@ import { Logger } from './utils/logger';
   const tracks = {
     nurburgring: await trackRepository.createAndSave({ name: 'Nurburgring' }),
     misano: await trackRepository.createAndSave({ name: 'Misano' }),
+    monza: await trackRepository.createAndSave({ name: 'Monza' }),
+    imola: await trackRepository.createAndSave({ name: 'Imola' }),
+    spa: await trackRepository.createAndSave({
+      name: 'Circuit de Spa-Francorchamps',
+    }),
   };
 
   const setups = {
@@ -82,7 +87,7 @@ import { Logger } from './utils/logger';
       timeBase: 125,
       weather: SetupWeather.dry,
       modelId: models._911.id,
-      trackId: tracks.nurburgring.id,
+      trackId: tracks.spa.id,
       userId: users.activeUser.id,
     }),
     setup2: await setupRepository.createAndSave({
@@ -92,7 +97,7 @@ import { Logger } from './utils/logger';
       timeBase: 124,
       weather: SetupWeather.wet,
       modelId: models.r8.id,
-      trackId: tracks.nurburgring.id,
+      trackId: tracks.spa.id,
       userId: users.activeUser.id,
     }),
   };
