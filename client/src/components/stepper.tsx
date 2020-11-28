@@ -22,7 +22,12 @@ export function Stepper(props: {
   }, [setLabelsHidden, dimensions.breakpointSmall]);
 
   React.useEffect(() => {
-    window.addEventListener('resize', throttle(handleResize, 200));
+    const throttledHandler = throttle(handleResize, 200);
+    window.addEventListener('resize', throttledHandler);
+    return () => {
+      window.removeEventListener('resize', throttledHandler);
+      throttledHandler.cancel();
+    };
   });
 
   const renderer = props.steps[props.activeIndex].renderer;
