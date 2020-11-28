@@ -14,6 +14,7 @@ export class FetcherBloc<T, R> extends Bloc<
     if (event instanceof FetcherEvents.Fetch) {
       try {
         yield new FetcherStates.Loading();
+        await new Promise((resolve) => setTimeout(resolve, 250));
         const result = await this.fetch(event.variables);
         if (!result) {
           yield new FetcherStates.NoResults();

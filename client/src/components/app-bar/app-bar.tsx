@@ -92,7 +92,6 @@ const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
     width: '100%',
     maxWidth: dimensions.widthLimiter,
     marginLeft: dimensions.gutterMedium,
-    marginRight: -dimensions.gutterMedium,
     display: 'flex',
   },
   titleWrapper: {

@@ -1,5 +1,6 @@
 import { createUseStyle } from '@src/config/theme';
 import { combine } from '@src/modules/css-in-jsx';
+import { throttle } from 'lodash';
 import React from 'react';
 
 export function Stepper(props: {
@@ -11,7 +12,19 @@ export function Stepper(props: {
   activeIndex: number;
   style?: React.CSSProperties;
 }) {
-  const { styles } = useStyle();
+  const { styles, dimensions } = useStyle();
+  const [labelsHidden, setLabelsHidden] = React.useState(
+    window.innerWidth < dimensions.breakpointSmall
+  );
+
+  const handleResize = React.useCallback(() => {
+    setLabelsHidden(window.innerWidth < dimensions.breakpointSmall);
+  }, [setLabelsHidden]);
+
+  React.useEffect(() => {
+    window.addEventListener('resize', throttle(handleResize, 200));
+  });
+
   const renderer = props.steps[props.activeIndex].renderer;
   const shouldRenderBody = !!renderer;
   const children = renderer instanceof Function ? renderer() : renderer;
@@ -30,9 +43,11 @@ export function Stepper(props: {
               <div style={styles.circle(isActive, isClickable)}>
                 {index + 1}
               </div>
-              <div style={styles.label(isActive, isClickable)}>
-                {step.label}
-              </div>
+              {(!labelsHidden || isActive) && (
+                <div style={styles.label(isActive, isClickable)}>
+                  {step.label}
+                </div>
+              )}
             </div>
           );
         })}

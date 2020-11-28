@@ -26,6 +26,7 @@ export const { ThemeProvider, createUseStyle, theme } = configureTheme({
     appBarHeight: 60,
     widthLimiter: 960,
     appBarIndex: 1000,
+    breakpointSmall: 700,
   },
   createSharedStyles: (theme) => ({
     typography: {
