@@ -12,10 +12,13 @@ export function FileFormField<T, R>(props: {
   const value = (props.bloc.getValue(props.id) as any) as File | undefined;
   const { styles } = useStyle();
 
-  const onDrop = React.useCallback((acceptedFiles) => {
-    props.bloc.dispatch(new FormEvents.Update(props.id, acceptedFiles[0]));
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const onDrop = React.useCallback(
+    (acceptedFiles) => {
+      props.bloc.dispatch(new FormEvents.Update(props.id, acceptedFiles[0]));
+    },
+    [props.bloc, props.id]
+  );
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxFiles: 1,
   });

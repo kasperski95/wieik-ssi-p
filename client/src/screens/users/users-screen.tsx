@@ -4,12 +4,10 @@ import { Fetcher } from '@src/components/fetcher';
 import { Screen } from '@src/components/screen';
 import { useCrud } from '@src/config/create-crud';
 import { endpoints } from '@src/config/routes';
-import { createUseStyle } from '@src/config/theme';
 import { User, UserStatus } from '@src/models/user';
 import React from 'react';
 
 export function UsersScreen() {
-  const { styles } = useStyle();
   const { read, update } = useCrud();
   const fetcherBloc = useFetcherBloc('users', async () => {
     return (await read(endpoints.user)) as User[];
@@ -70,7 +68,3 @@ export function UsersScreen() {
     </Screen>
   );
 }
-
-const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {},
-}));

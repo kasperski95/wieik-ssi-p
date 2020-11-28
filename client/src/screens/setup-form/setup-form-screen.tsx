@@ -5,12 +5,10 @@ import { Screen } from '@src/components/screen';
 import { isAuthorized, Privileges } from '@src/config/authorization';
 import { useCrud } from '@src/config/create-crud';
 import { routes } from '@src/config/routes';
-import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 export function SetupFormScreen(props: { trackId: string; carId: string }) {
-  const { styles } = useStyle();
   const { create } = useCrud();
   const history = useHistory();
   const userBloc = useUserBloc();
@@ -87,7 +85,3 @@ export function SetupFormScreen(props: { trackId: string; carId: string }) {
     </Screen>
   );
 }
-
-const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {},
-}));

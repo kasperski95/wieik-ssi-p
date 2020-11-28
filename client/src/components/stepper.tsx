@@ -19,7 +19,7 @@ export function Stepper(props: {
 
   const handleResize = React.useCallback(() => {
     setLabelsHidden(window.innerWidth < dimensions.breakpointSmall);
-  }, [setLabelsHidden]);
+  }, [setLabelsHidden, dimensions.breakpointSmall]);
 
   React.useEffect(() => {
     window.addEventListener('resize', throttle(handleResize, 200));

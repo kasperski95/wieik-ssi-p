@@ -1,7 +1,6 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
 import { useCrud } from '@src/config/create-crud';
 import { endpoints, routes } from '@src/config/routes';
-import { createUseStyle } from '@src/config/theme';
 import { Track } from '@src/models/track';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -9,7 +8,6 @@ import { PhotoCard } from '../photo-card';
 import { Fetcher } from './index';
 
 export function TracksFetcher() {
-  const { styles } = useStyle();
   const { read } = useCrud();
   const history = useHistory();
 
@@ -19,7 +17,7 @@ export function TracksFetcher() {
 
   React.useEffect(() => {
     fetcherBloc.dispatch(new FetcherEvents.Fetch());
-  }, []);
+  }, [fetcherBloc]);
 
   return (
     <Fetcher
@@ -58,7 +56,3 @@ export function TracksFetcher() {
     />
   );
 }
-
-const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {},
-}));

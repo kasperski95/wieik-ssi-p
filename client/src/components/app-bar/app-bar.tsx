@@ -4,7 +4,6 @@ import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { ThemeEvents, useThemeBloc } from '@src/blocs/theme';
 import { createUseStyle } from '@src/config/theme';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { Button } from '../buttons';
 
 interface Action {
@@ -21,7 +20,6 @@ export interface AppBarProps {
 
 export function AppBar(props: AppBarProps) {
   const { styles } = useStyle();
-  const history = useHistory();
   const themeBloc = useThemeBloc();
 
   const shouldRenderActions = !!props.actions;
@@ -42,9 +40,9 @@ export function AppBar(props: AppBarProps) {
             {props.title instanceof Function ? props.title() : props.title}
           </div>
         </div>
+        <div style={styles.gutter} />
         {shouldRenderActions && (
           <React.Fragment>
-            <div style={styles.gutter} />
             {props.actions
               ?.filter((el) => !!el)
               .map((action) => {

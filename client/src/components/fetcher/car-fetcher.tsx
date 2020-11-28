@@ -27,7 +27,7 @@ export function CarsFetcher(props: { brandId: string }) {
 
   React.useEffect(() => {
     fetcherBloc.dispatch(new FetcherEvents.Fetch(props.brandId));
-  }, [props.brandId]);
+  }, [props.brandId, fetcherBloc]);
 
   return (
     <Fetcher

@@ -1,4 +1,3 @@
-import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useUserBloc } from './blocs/user';
@@ -93,7 +92,3 @@ export function Router() {
     </BrowserRouter>
   );
 }
-
-const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {},
-}));

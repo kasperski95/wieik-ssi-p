@@ -55,7 +55,7 @@ export function SetupFetcher(props: { trackId: string; carId: string }) {
     fetcherBloc.dispatch(
       new FetcherEvents.Fetch({ trackId: props.trackId, carId: props.carId })
     );
-  }, [props.trackId, props.carId]);
+  }, [props.trackId, props.carId, fetcherBloc]);
 
   return (
     <React.Fragment>

@@ -32,10 +32,6 @@ export function Home(props: {
   if (props.trackId && props.brandId) activeIndex = 2;
   if (props.trackId && props.carId) activeIndex = 3;
 
-  const handleStepperClick = (index: number) => {
-    return history.go(-activeIndex + index);
-  };
-
   return (
     <Screen
       title={() => {

@@ -5,7 +5,6 @@ import { Fetcher } from '@src/components/fetcher';
 import { Screen } from '@src/components/screen';
 import { useCrud } from '@src/config/create-crud';
 import { endpoints, routes, setups as setupsURL } from '@src/config/routes';
-import { createUseStyle } from '@src/config/theme';
 import { Setup } from '@src/models/setup';
 import { humanizeTime } from '@src/utils/humanize-time';
 import Case from 'case';
@@ -13,7 +12,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 export function MySetupsScreen() {
-  const { styles } = useStyle();
   const { read, remove } = useCrud();
   const userBloc = useUserBloc();
   const user = userBloc.user!;
@@ -30,7 +28,7 @@ export function MySetupsScreen() {
 
   React.useEffect(() => {
     fetcherBloc.dispatch(new FetcherEvents.Fetch({ userId: user.id }));
-  }, [user]);
+  }, [fetcherBloc, user]);
 
   return (
     <Screen
@@ -100,7 +98,3 @@ export function MySetupsScreen() {
     </Screen>
   );
 }
-
-const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {},
-}));

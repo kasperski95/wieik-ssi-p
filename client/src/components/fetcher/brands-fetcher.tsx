@@ -18,7 +18,7 @@ export function BrandsFetcher() {
 
   React.useEffect(() => {
     fetcherBloc.dispatch(new FetcherEvents.Fetch());
-  }, []);
+  }, [fetcherBloc]);
 
   return (
     <Fetcher

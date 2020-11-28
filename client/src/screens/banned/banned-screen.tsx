@@ -1,11 +1,9 @@
 import { UserEvents, useUserBloc } from '@src/blocs/user';
 import { ErrorBox } from '@src/components/error-box';
 import { Screen } from '@src/components/screen';
-import { createUseStyle } from '@src/config/theme';
 import React from 'react';
 
 export function BannedScreen() {
-  const { styles } = useStyle();
   const userBloc = useUserBloc();
   return (
     <Screen
@@ -23,7 +21,3 @@ export function BannedScreen() {
     </Screen>
   );
 }
-
-const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
-  container: {},
-}));
