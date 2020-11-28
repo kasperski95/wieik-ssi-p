@@ -2,6 +2,7 @@ import { useFormBloc } from '@src/blocs/form';
 import { UserEvents, useUserBloc } from '@src/blocs/user';
 import { Form, FormField } from '@src/components/form';
 import { Screen } from '@src/components/screen';
+import { isAuthorized, Privileges } from '@src/config/authorization';
 import { useCrud } from '@src/config/create-crud';
 import { endpoints, routes } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
@@ -31,7 +32,21 @@ export function LoginScreen() {
   );
 
   return (
-    <Screen style={styles.container} title='Log In' showGoBack={true}>
+    <Screen
+      style={styles.container}
+      title='Log In'
+      showGoBack={true}
+      actions={[
+        isAuthorized(userBloc.user, Privileges.seeRegistration)
+          ? {
+              label: 'Register',
+              onClick: () => {
+                history.push(routes.register);
+              },
+            }
+          : undefined,
+      ]}
+    >
       <Form.Wrapper style={styles.form} formBloc={formBloc}>
         <Form.Builder
           formBloc={formBloc}

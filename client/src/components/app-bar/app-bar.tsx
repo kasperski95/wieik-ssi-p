@@ -22,7 +22,7 @@ export function AppBar(props: {
             <Button.Icon
               rippleStyle={styles.iconButton}
               onClick={() => {
-                history.length > 0 ? history.goBack() : history.push('/');
+                history.push('/');
               }}
             >
               <ArrowBackIcon style={styles.arrow} />

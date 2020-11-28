@@ -1,6 +1,8 @@
 import { useFormBloc } from '@src/blocs/form';
+import { UserEvents, useUserBloc } from '@src/blocs/user';
 import { Form, FormField } from '@src/components/form';
 import { Screen } from '@src/components/screen';
+import { isAuthorized, Privileges } from '@src/config/authorization';
 import { useCrud } from '@src/config/create-crud';
 import { routes } from '@src/config/routes';
 import { createUseStyle } from '@src/config/theme';
@@ -11,6 +13,7 @@ export function SetupFormScreen(props: { trackId: string; carId: string }) {
   const { styles } = useStyle();
   const { create } = useCrud();
   const history = useHistory();
+  const userBloc = useUserBloc();
   const formBloc = useFormBloc(
     'setup-form',
     {
@@ -35,7 +38,28 @@ export function SetupFormScreen(props: { trackId: string; carId: string }) {
   );
 
   return (
-    <Screen title='Upload Setup' showGoBack={true}>
+    <Screen
+      title='Upload Setup'
+      showGoBack={true}
+      actions={[
+        isAuthorized(userBloc.user, Privileges.seeMySetups)
+          ? {
+              label: 'My Setups',
+              onClick: () => {
+                history.push(routes.mySetups);
+              },
+            }
+          : undefined,
+        !!userBloc.user
+          ? {
+              label: `Log Out (${userBloc.user.username})`,
+              onClick: () => {
+                userBloc.dispatch(new UserEvents.Logout());
+              },
+            }
+          : undefined,
+      ]}
+    >
       <Form.Wrapper formBloc={formBloc}>
         <Form.Builder
           formBloc={formBloc}

@@ -1,5 +1,5 @@
 import { FetcherEvents, useFetcherBloc } from '@src/blocs/fetcher';
-import { useUserBloc } from '@src/blocs/user';
+import { UserEvents, useUserBloc } from '@src/blocs/user';
 import { Card } from '@src/components/card';
 import { Fetcher } from '@src/components/fetcher';
 import { Screen } from '@src/components/screen';
@@ -31,7 +31,18 @@ export function MySetupsScreen() {
   }, [user]);
 
   return (
-    <Screen showGoBack={true} title='My Setups'>
+    <Screen
+      showGoBack={true}
+      title='My Setups'
+      actions={[
+        {
+          label: `Log Out (${user.username})`,
+          onClick: () => {
+            userBloc.dispatch(new UserEvents.Logout());
+          },
+        },
+      ]}
+    >
       <Fetcher
         fetcherBloc={fetcherBloc}
         builder={(result) => {

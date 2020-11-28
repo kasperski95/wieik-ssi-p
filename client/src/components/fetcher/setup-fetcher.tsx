@@ -59,18 +59,6 @@ export function SetupFetcher(props: { trackId: string; carId: string }) {
 
   return (
     <React.Fragment>
-      <div style={styles.buttonWrapper}>
-        {isAuthorized(userBloc.user, Privileges.uploadSetup) && (
-          <Button.Submit
-            label='Upload'
-            onClick={() => {
-              history.push(
-                `${routes.uploadSetup}?t=${props.trackId}&c=${props.carId}`
-              );
-            }}
-          />
-        )}
-      </div>
       <Fetcher
         fetcherBloc={fetcherBloc}
         builder={(result) => {
@@ -107,6 +95,18 @@ export function SetupFetcher(props: { trackId: string; carId: string }) {
           );
         }}
       />
+      <div style={styles.buttonWrapper}>
+        {isAuthorized(userBloc.user, Privileges.uploadSetup) && (
+          <Button.Submit
+            label='Upload'
+            onClick={() => {
+              history.push(
+                `${routes.uploadSetup}?t=${props.trackId}&c=${props.carId}`
+              );
+            }}
+          />
+        )}
+      </div>
     </React.Fragment>
   );
 }
@@ -114,7 +114,7 @@ export function SetupFetcher(props: { trackId: string; carId: string }) {
 const useStyle = createUseStyle(({ theme, dimensions, shared }) => ({
   buttonWrapper: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     marginBottom: dimensions.gutterMedium,
   },
 }));
