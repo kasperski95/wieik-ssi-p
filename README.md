@@ -19,7 +19,7 @@ Simple application supporting sharing and searching **setups** used in game **As
 - **setup** - File containing configuration of a specific car (i.e. bump stops, cambers, casters etc.).
 
 ## Demo
-[![Foo](readme/yt-preview.jpg)](http://google.com.au/)
+[![Foo](readme/yt-preview.jpg)](https://youtu.be/6yReq9nZ8KY)
 
 
 ## Features
