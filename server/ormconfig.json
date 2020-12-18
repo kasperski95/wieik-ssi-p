@@ -1,10 +1,7 @@
 {
-  "type": "postgres",
-  "host": "localhost",
-  "port": 5432,
-  "username": "postgres",
-  "password": "foobar",
-  "database": "wieik_ssi_p",
+  "type": "sqlite",
+  "username": "sqlite",
+  "database": "./db.sq3",
   "entities": ["src/components/**/*-model.ts"],
   "autoSchemaSync": true,
   "logging": true

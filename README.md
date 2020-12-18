@@ -8,6 +8,7 @@ Project implemented withing the framework of a subject *Network Information Syst
 - [Demo](#demo)
 - [Features](#features)
 - [Technologies](#technologies)
+- [Mock Accounts](#mock-accounts)
 
 ---
 
@@ -40,6 +41,14 @@ Simple application supporting sharing and searching **setups** used in game **As
 ## Technologies
 - React
 - TypeScript
-- PostgreSQL
+- PostgreSQL -> SQLite
 - TypeORM
 - Express.js
+
+## Mock Accounts
+```
+activeUser@m.com
+blockedUser@m.com 
+admin@m.com
+```
+password: **foobar**
